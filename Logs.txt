@@ -1,0 +1,11 @@
+14:28:16  [SYSTEM] **Standart Control**
+14:28:18  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 30; Y: 7
+14:28:18  [WARNING] Hero Can't Move On Walls!
+14:28:18  [WARNING] Hero Can't Move On Walls!
+14:28:19  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 30; Y: 6
+14:28:19  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 30; Y: 5
+14:28:19  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 31; Y: 5
+14:28:19  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 32; Y: 5
+14:28:19  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 33; Y: 5
+14:28:20  [HERO MOVE] Hero moved Down. New coordinates of Hero: X: 33; Y: 6
+14:28:20  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 34; Y: 6
