@@ -8,6 +8,7 @@
 #include "../Singleton/Singleton_Hero.h"
 #include "../Field/Field.h"
 #include "../Abstract_Event_Factory/Abstract_Event_Factory.h"
+#include "../Inventory/Inventory.h"
 
 #include "../Logs/ISubject.h"
 
@@ -24,7 +25,7 @@ public:
 
     void set_field(Field* new_field);
 
-    void move_hero(direction direction_key, Field* main_field);
+    void move_hero(direction direction_key, Field* main_field, Inventory* inventory);
 
     void Attach(IObserver *observer) override;
     void Detach(IObserver *observer) override;
@@ -46,6 +47,9 @@ private:
 
     void do_event_heal_or_enemy_or_win(Abstract_Event_Factory& factory, Field* main_field);
     void do_event_xp_or_teleport_or_refresher(Abstract_Event_Factory& factory, Field* main_field);
+
+    Equipment_Factory* equipmentFactory;
+    Consumables_Factory* consumablesFactory;
 
 };
 

@@ -10,6 +10,13 @@ void XP::do_event(Field* field) {
 
     hero->set_hero_attribute(Singleton_Hero::experience,
                                    hero->get_hero_attribute(Singleton_Hero::experience) + 1);
+
+    if (hero->get_pumpkin_status()){
+        hero->set_hero_attribute(Singleton_Hero::experience,
+                                 hero->get_hero_attribute(Singleton_Hero::experience) + 1);
+    }
+
+
     hero->set_hero_shroom_status(false);
 
 

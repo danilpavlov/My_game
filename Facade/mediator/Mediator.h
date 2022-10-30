@@ -8,7 +8,7 @@
 #include "../Field/Field.h"
 #include "GUI_Display.h"
 #include "../Logs/ISubject.h"
-
+#include "../Inventory/Inventory.h"
 
 class Mediator{
 public:
@@ -17,7 +17,7 @@ public:
     Mediator(Field* main_field);
     Mediator();
 
-    void move_hero(int key, Field* field);
+    void move_hero(int key, Field* field, Inventory* inventory);
 
     void move_menu(int key);
     void move_request(int key);

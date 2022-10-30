@@ -5,13 +5,13 @@
 #ifndef MY_GAME_SAVER_H
 #define MY_GAME_SAVER_H
 #include "../Field/Field.h"
-#include "Memento.h"
+#include "Save_Pool.h"
 #include <fstream>
-
 class Saver {
 public:
     void save(Field* main_filed);
     void restore(Memento* memento, Field* main_field);
+    Memento* save_current_memento();
 
 private:
     std::fstream field_file;

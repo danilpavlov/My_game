@@ -28,18 +28,16 @@
 #include "Logs/Loggers/Console_Logger.h"
 #include "Logs/Loggers/File_Logger.h"
 
-#include "Input_Command_Readers/Request_Stream.h"
-#include "Input_Command_Readers/Command_Reader.h"
+#include "Input_Command_Readers/Command_Wrapper.h"
+
 
 #include "Objects_Generator/Strategy/Level_Context.h"
 #include "Objects_Generator/Strategy/ConcreteStrategies/Level_One.h"
 #include "Objects_Generator/Strategy/ConcreteStrategies/Level_Two.h"
 
-#include "Memento_Saver/Saver.h"
-#include "Memento_Saver/Concrete_Memento.h"
+#include "Memento_Saver/Caretaker.h"
 
-
-
+#include "Inventory/Inventory.h"
 
 class Game_Logic{
 public:
@@ -52,6 +50,7 @@ public:
     ~Game_Logic();
 
 private:
+
     levels current_level;
     bool end_choice;
 
@@ -76,6 +75,7 @@ private:
 
     Console_Logger* consoleLogger_;
     File_Logger* fileLogger_;
+
     Event_Message* message;
 
     void Attach_all_to(IObserver *observer);
@@ -84,14 +84,18 @@ private:
 
     Request_Stream* request_input_stream;
     void request_user_about_input_stream();
-    Command_Reader* reader;
+
+    Command_Wrapper* command_wrapper;
+
 
     Level_Context levelContext;
 
     void start_user_level_choice();
 
     Saver *game_saver;
-    Memento* memento;
+    Caretaker* caretaker;
+
+    Inventory* inventory;
 
 };
 

@@ -17,14 +17,19 @@ Hero_Moves::Hero_Moves(Field* field) : field(field->get_field()) {
     warningMessage = new Warning_Message;
     eventMessage = new Event_Message;
 
-
-
+    equipmentFactory = new Equipment_Factory;
+    consumablesFactory = new Consumables_Factory;
 }
 
 void Hero_Moves::redefinition_hero_cell_states(int cell_x_plus, int cell_y_plus, Cell::cell_state present_cell_state, Cell::cell_state future_cell_state) {
 
-    field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(Singleton_Hero::x)].set_state(
-            present_cell_state);
+    if (!hero->were_moved_on_wall()) {
+        field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(Singleton_Hero::x)].set_state(
+                present_cell_state);
+    }else{
+        field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(Singleton_Hero::x)].set_state(
+                Cell::WALL);
+    }
 
     hero->set_hero_position(Singleton_Hero::x, fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + cell_x_plus,
                                                          x_verge) + x_verge, x_verge)); // Меняем глобальное положения x
@@ -37,10 +42,11 @@ void Hero_Moves::redefinition_hero_cell_states(int cell_x_plus, int cell_y_plus,
 
     field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(Singleton_Hero::x)].set_event(
             Cell::NO_EVENT);
+    hero->set_hero_moved_on_wall(false);
 }
 
 
-void Hero_Moves::move_hero(direction direction_key, Field* main_field) {
+void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory* inventory) {
     Abstract_Event_Factory *some_factory;
     int x_plus;
     int y_plus;
@@ -74,6 +80,16 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field) {
             if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
                 [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_state() != Cell::WALL) {
                 redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+
+                Notify(heroMoveMessage, direction_key);
+
+            }else if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
+                            [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_state() == Cell::WALL && hero->get_ghost_status()){
+
+
+                redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+                hero->set_hero_moved_on_wall(true);
 
                 Notify(heroMoveMessage, direction_key);
 
@@ -181,6 +197,46 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field) {
             Notify(heroMoveMessage, direction_key);
             delete some_factory;
             break;
+
+        case Cell::ITEM:
+            switch((field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
+            [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_state())){
+
+                case Cell::PUMPKIN_HEAD:
+                    if (inventory->has_empty_equipment_slots()){
+                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                        inventory->add_equipment(equipmentFactory->put_pumpkin_head_in_inventory());
+                    }
+
+                    break;
+                case Cell::GHOST_HEAD:
+                    if (inventory->has_empty_equipment_slots()){
+                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                        inventory->add_equipment(equipmentFactory->put_ghost_head_in_inventory());
+                    }
+                    break;
+                case Cell::DRUG:
+                    if (inventory->has_empty_consumable_slots()){
+                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                        inventory->add_consumable(consumablesFactory->put_drug_in_inventory());
+                    }
+
+                    break;
+                case Cell::HEAL_POTION:
+                    if (inventory->has_empty_consumable_slots()){
+                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                        inventory->add_consumable(consumablesFactory->put_heal_potion_in_inventory());
+                    }
+
+                    break;
+                default:
+                    break;
+
+            }
         default:
             break;
 

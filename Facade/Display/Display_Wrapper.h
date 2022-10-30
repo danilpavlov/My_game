@@ -10,6 +10,7 @@
 #include "Sockets/File_Control_Request_Display.h"
 #include <iostream>
 #include <string>
+#include "Sockets/Inventory_Display.h"
 
 class Display_Wrapper{
 public:
@@ -24,7 +25,7 @@ public:
 
     void print_devil(std::string tab);
 
-    void draw(Field* field, Console_Logger* console_logger, int level);
+    void draw(Field* field, Console_Logger* console_logger, int level, Inventory* inventory);
     void draw_field_only(Field* field, int level);
 
 
@@ -38,9 +39,12 @@ public:
 
     void set_logging(int new_logging_state);
 
+    void print_cant_load();
+
 
 private:
     Attribute_display* attribute_display;
+    Inventory_Display* inventory_display;
     Intro* intro;
     Field_Painter* field_painter;
     File_Control_Request_Display* request_file_control;

@@ -13,6 +13,8 @@
 #include "../Rules/Rule_6/Rule_Heals_Spawn.h"
 #include "../Rules/Rule_7/Rule_Teleports_Spawn.h"
 #include "../Rules/Rule_8/Rule_Refresher_Spawn.h"
+#include "../Rules/Rule_9/Rule_Equipment_Spawn.h"
+#include "../Rules/Rule_10/Rule_Consumables_Spawn.h"
 #include "../Level_Generator.h"
 
 class Level_Strategy {
@@ -31,15 +33,21 @@ protected:
     Rule_Heals_Spawn<int, int> *HealsSpawn;
     Rule_Teleports_Spawn<int, int> *TeleportsSpawn;
     Rule_Refresher_Spawn<int, int> *RefresherSpawn;
+    Rule_Equipment_Spawn<int, int> *EquipmentSpawn;
+    Rule_Consumables_Spawn<int, int> *ConsumablesSpawn;
+
 
     Level_Generator<Rule_Hero_Spawn<int, int>,
-    Rule_Win_Cell_Spawn<int, int>,
-    Rule_Walls_Spawn<int>,
-    Rule_Enemies_Spawn<int, int>,
-    Rule_XPs_Spawn<int, int>,
-    Rule_Heals_Spawn<int, int>,
-    Rule_Teleports_Spawn<int, int>,
-    Rule_Refresher_Spawn<int, int> > *levelGenerator;
+                        Rule_Win_Cell_Spawn<int, int>,
+                        Rule_Walls_Spawn<int>,
+                        Rule_Equipment_Spawn<int, int>,
+                        Rule_Consumables_Spawn<int, int>,
+
+                        Rule_Enemies_Spawn<int, int>,
+                        Rule_XPs_Spawn<int, int>,
+                        Rule_Heals_Spawn<int, int>,
+                        Rule_Teleports_Spawn<int, int>,
+                        Rule_Refresher_Spawn<int, int> > *levelGenerator;
 
 };
 

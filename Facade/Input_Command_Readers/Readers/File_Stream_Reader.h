@@ -11,7 +11,12 @@
 
 class File_Stream_Reader : public Command_Reader{
 public:
+    File_Stream_Reader();
     char get_character() override;
+    ~File_Stream_Reader();
+private:
+    std::ifstream file;
+    std::string path = "File_Controller.txt";   // done
 };
 
 

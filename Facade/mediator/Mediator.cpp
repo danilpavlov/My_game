@@ -12,20 +12,20 @@ Mediator::Mediator(Field* main_field) {
 
 
 
-void Mediator::move_hero(int key, Field* field) {
+void Mediator::move_hero(int key, Field* field, Inventory* inventory) {
 
     switch (key){
         case (Mediator::LEFT):
-            hero_mover->move_hero(Hero_Moves::LEFT, field);
+            hero_mover->move_hero(Hero_Moves::LEFT, field, inventory);
             break;
         case (Mediator::RIGHT):
-            hero_mover->move_hero(Hero_Moves::RIGHT, field);
+            hero_mover->move_hero(Hero_Moves::RIGHT, field, inventory);
             break;
         case (Mediator::UP):
-            hero_mover->move_hero(Hero_Moves::UP, field);
+            hero_mover->move_hero(Hero_Moves::UP, field, inventory);
             break;
         case (Mediator::DOWN):
-            hero_mover->move_hero(Hero_Moves::DOWN, field);
+            hero_mover->move_hero(Hero_Moves::DOWN, field, inventory);
             break;
         default:
             break;

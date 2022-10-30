@@ -138,3 +138,7 @@ void Saver::clear_all_files() {
     std::fstream clear_hero_y_file(hero_y_pos_path, std::ios::out);
     clear_hero_y_file.close();
 }
+
+Memento *Saver::save_current_memento() {
+    return new Save_Pool();
+}

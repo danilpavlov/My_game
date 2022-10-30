@@ -2,10 +2,10 @@
 // Created by Даниил Павлов on 23.10.2022.
 //
 
-#include "Concrete_Memento.h"
+#include "Save_Pool.h"
 #include <exception>
 
-std::vector<std::vector<Cell>> Concrete_Memento::get_field() const {
+std::vector<std::vector<Cell>> Save_Pool::get_field() const {
     std::vector<std::vector<Cell>> field;
 
     std::string path = "Save/Saved_Field.txt";
@@ -75,7 +75,7 @@ std::vector<std::vector<Cell>> Concrete_Memento::get_field() const {
     return field;
 }
 
-int Concrete_Memento::hero_position(Singleton_Hero::coordinates coordinate) const {
+int Save_Pool::hero_position(Singleton_Hero::coordinates coordinate) const {
     int position;
     std::string path;
     std::ifstream file;
@@ -108,7 +108,7 @@ int Concrete_Memento::hero_position(Singleton_Hero::coordinates coordinate) cons
     return position;
 }
 
-int Concrete_Memento::hero_attribute(Singleton_Hero::hero_attributes attribute) const {
+int Save_Pool::hero_attribute(Singleton_Hero::hero_attributes attribute) const {
     int attribute_amount;
 
     std::ifstream file;
@@ -137,18 +137,18 @@ int Concrete_Memento::hero_attribute(Singleton_Hero::hero_attributes attribute) 
     }
 
     if (attribute_amount > 9 && path == "Save/Saved_HP.txt"){
-        attribute_amount = 9;
+        throw std::exception();
     }else if (attribute_amount < 1 && path == "Save/Saved_HP.txt"){
-        attribute_amount = 1;
+        throw std::exception();
     }else if (attribute_amount < 0 && (path == "Save/Saved_Hero_Level.txt" || path == "Save/Saved_XP.txt") ){
-        attribute_amount = 0;
+        throw std::exception();
     }
 
     file.close();
     return attribute_amount;
 }
 
-int Concrete_Memento::field_level() const {
+int Save_Pool::field_level() const {
     int level;
     std::string path = "Save/Saved_Field_Level.txt";
     std::ifstream file;

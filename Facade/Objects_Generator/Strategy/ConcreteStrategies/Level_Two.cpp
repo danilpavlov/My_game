@@ -8,6 +8,9 @@ void Level_Two::generate_level(Field *field) {
     levelGenerator->hero_spawn(1, 20, HeroSpawn, field);
     levelGenerator->win_cell_spawn(30, 10, WinCellSpawn, field);
     levelGenerator->walls_spawn(666666, WallsSpawn, field);
+    levelGenerator->equipment_spawn(66, 3, EquipmentSpawn, field);
+    levelGenerator->consumables_spawn(666, 3, ConsumablesSpawn, field);
+
     levelGenerator->set_rules(EnemiesSpawn, XPsSpawn, HealsSpawn, TeleportsSpawn, RefresherSpawn, 666, 15, field);
 
 }

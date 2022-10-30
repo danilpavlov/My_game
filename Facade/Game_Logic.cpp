@@ -5,13 +5,10 @@
 #include "Game_Logic.h"
 #define TAB "\t\t\t\t\t\t\t"
 
-
 Game_Logic::Game_Logic() {
-
-
-
     consoleLogger_ = new Console_Logger;
     fileLogger_ = new File_Logger;
+
     fileLogger_->clear();
 
     ground = new Field;
@@ -24,11 +21,15 @@ Game_Logic::Game_Logic() {
 
     mediator = new Mediator(ground);
 
+    command_wrapper = new Command_Wrapper;
 
     request_input_stream = new Request_Stream;
 
-    memento = new Concrete_Memento;
     game_saver = new Saver;
+    caretaker = new Caretaker(game_saver);
+    caretaker->backup();
+
+    inventory = new Inventory;
 }
 
 
@@ -43,59 +44,61 @@ void Game_Logic::start_new_game() {
         default:
             break;
     }
+    char dynamic_message_color[] = { 0x1b, '[', '3', '8',';','5',';','1', '6', '6', 'm',0 };
+    char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
 
-    display_wrapper->draw(ground, consoleLogger_, current_level);
+    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
 
     while (true) {
 
         if (kbhit()) {
-            switch (reader->get_character()) {
-                case 'W':
-                case 'w':
+            switch (command_wrapper->read_user_symbol()) {
+                case Command_Wrapper::MOVE_UP:
+
                     system("clear");
                     display_wrapper->in_game_intro();
 
-                    mediator->move_hero(Mediator::UP, ground);
+                    mediator->move_hero(Mediator::UP, ground, inventory);
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level);
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     break;
-                case 'A':
-                case 'a':
+
+                case Command_Wrapper::MOVE_LEFT:
                     system("clear");
                     display_wrapper->in_game_intro();
 
-                    mediator->move_hero(Mediator::LEFT, ground);
+                    mediator->move_hero(Mediator::LEFT, ground, inventory);
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level);
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     break;
-                case 'D':
-                case 'd':
+
+                case Command_Wrapper::MOVE_RIGHT:
                     system("clear");
                     display_wrapper->in_game_intro();
 
-                    mediator->move_hero(Mediator::RIGHT, ground);
+                    mediator->move_hero(Mediator::RIGHT, ground, inventory);
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level);
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     break;
-                case 'S':
-                case 's':
+
+                case Command_Wrapper::MOVE_DOWN:
                     system("clear");
                     display_wrapper->in_game_intro();
 
-                    mediator->move_hero(Mediator::DOWN, ground);
+                    mediator->move_hero(Mediator::DOWN, ground, inventory);
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level);
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     break;
-                case 'q':
-                case 'Q':
+
+                case Command_Wrapper::QUIT:
 
                     system("clear");
 
                     end = true;
                     quit = true;
                     break;
-                case 'i':
-                case 'I':
+
+                case Command_Wrapper::LOG_STREAM:
                     logging_setter += 1;
 
                     if (fmod(logging_setter, 4) == 0){
@@ -105,7 +108,7 @@ void Game_Logic::start_new_game() {
                         display_wrapper->set_logging(0);
                         system("clear");
                         display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level);
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     }else if (fmod(logging_setter, 4) == 1){
                         Detach_all_from(fileLogger_);
                         Attach_all_to(consoleLogger_);
@@ -113,14 +116,14 @@ void Game_Logic::start_new_game() {
                         display_wrapper->set_logging(1);
                         system("clear");
                         display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level);
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     }else if (fmod(logging_setter, 4) == 2){
                         Attach_all_to(fileLogger_);
 
                         display_wrapper->set_logging(2);
                         system("clear");
                         display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level);
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     }else if (fmod(logging_setter, 4) == 3){
                         Detach_all_from(consoleLogger_);
                         Detach_all_from(fileLogger_);
@@ -128,19 +131,67 @@ void Game_Logic::start_new_game() {
                         display_wrapper->set_logging(3);
                         system("clear");
                         display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level);
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                     }
                     break;
-                case 'u':
-                case 'U':
+
+                case Command_Wrapper::SAVE:
+                    std::cout << dynamic_message_color << "\tGame Was Saved!" << normal <<std::endl;
+                    caretaker->backup();
                     game_saver->save(ground);
+                    break;
+
+                case Command_Wrapper::SWITCH_EQUIPMENT:
+                    system("clear");
+                    display_wrapper->in_game_intro();
+
+                    inventory->switch_equipment();
+
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                    break;
+
+                case Command_Wrapper::SWITCH_CONSUMABLE:
+                    system("clear");
+                    display_wrapper->in_game_intro();
+
+                    inventory->switch_consumable();
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                    break;
+
+                case Command_Wrapper::USE_CONSUMABLE:
+                    system("clear");
+                    display_wrapper->in_game_intro();
+
+                    inventory->use_consumable();
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                    break;
+
+                case Command_Wrapper::DROP_EQUIPMENT:
+                    system("clear");
+                    display_wrapper->in_game_intro();
+
+                    inventory->throw_out( inventory->get_equipment_slots() [inventory->get_equipment_switcher()%3] );
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                    break;
+
+                case Command_Wrapper::DROP_CONSUMABLE:
+                    system("clear");
+                    display_wrapper->in_game_intro();
+
+                    inventory->throw_out( inventory->get_consumable_slots() [inventory->get_consumable_switcher()%3] );
+                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                    break;
+
                 default:
                     break;
 
             }
+            ///// END SWITCH-CASE :)
+
             if (hero->is_hero_won()){
                 system("killall afplay");
                 system("afplay Music/The_Smiths__This_Charming_Man.mp3 &");
+                inventory->clear_inventory();
                 display_wrapper->print_victory(TAB);
 
 
@@ -161,6 +212,7 @@ void Game_Logic::start_new_game() {
             }else if (!hero->is_alive()){
                 system("killall afplay");
                 system("afplay Music/1-1.mp3 &");
+                inventory->clear_inventory();
                 display_wrapper->print_lose(true, TAB);
 
                 while(true){
@@ -209,9 +261,8 @@ void Game_Logic::start_main_menu() {
 
         if (kbhit()){
 
-            switch (reader->get_character()){
-                case 's':
-                case 'S':
+            switch (command_wrapper->read_user_symbol()){
+                case Command_Wrapper::MOVE_DOWN:
                     system("clear");
                     std::cout << '\a';
                     display_wrapper->in_game_intro();
@@ -228,8 +279,7 @@ void Game_Logic::start_main_menu() {
 
                     mover += 1;
                     break;
-                case 'W':
-                case 'w':
+                case Command_Wrapper::MOVE_UP:
                     system("clear");
                     std::cout << '\a';
                     display_wrapper->in_game_intro();
@@ -245,7 +295,7 @@ void Game_Logic::start_main_menu() {
 
                     mover -= 1;
                     break;
-                case '\n':
+                case Command_Wrapper::ENTER:
                     system("clear");
                     display_wrapper->in_game_intro();
 
@@ -255,14 +305,18 @@ void Game_Logic::start_main_menu() {
                             start_user_level_choice();
                             break;
                         case GUI_Display::LOAD_GAME:
-                            ground->clear_field();
-                            hero->set_hero_to_default(0, 0);
-                            game_saver->restore(memento, ground);
-                            mediator->set_field(ground);
-                            system("killall afplay");
+                            try {
+                                ground->clear_field();
+                                hero->set_hero_to_default(0, 0);
+                                caretaker->load_game(ground);
+                                mediator->set_field(ground);
+                                system("killall afplay");
 
-                            current_level = static_cast<levels>(ground->get_level()-1);
-                            Game_Logic::start_new_game();
+                                current_level = static_cast<levels>(ground->get_level() - 1);
+                                Game_Logic::start_new_game();
+                            }catch (std::exception){
+                                display_wrapper->print_cant_load();
+                            }
 
                             break;
                         case GUI_Display::QUIT:
@@ -303,9 +357,9 @@ void Game_Logic::request_user_about_input_stream() {
     display_wrapper->show_alucard();
 
     if (choice == Request_Stream::STANDART){
-        reader = new Input_Stream_Reader;
+        command_wrapper->make_standart_input();
     }else if (choice == Request_Stream::FILE){
-        reader = new File_Stream_Reader;
+        command_wrapper->make_file_input();
     }
     system("killall afplay");
 
@@ -346,9 +400,8 @@ void Game_Logic::start_user_level_choice() {
 
         if (kbhit()){
 
-            switch (reader->get_character()) {
-                case 's':
-                case 'S':
+            switch (command_wrapper->read_user_symbol()) {
+                case Command_Wrapper::MOVE_DOWN:
                     system("clear");
                     std::cout << '\a';
                     display_wrapper->in_game_intro();
@@ -373,8 +426,7 @@ void Game_Logic::start_user_level_choice() {
 
                     mover += 1;
                     break;
-                case 'W':
-                case 'w':
+                case Command_Wrapper::MOVE_UP:
                     system("clear");
                     std::cout << '\a';
                     display_wrapper->in_game_intro();
@@ -402,7 +454,7 @@ void Game_Logic::start_user_level_choice() {
 
                     mover -= 1;
                     break;
-                case '\n':
+                case Command_Wrapper::ENTER:
                     system("clear");
                     display_wrapper->in_game_intro();
 
@@ -435,5 +487,8 @@ void Game_Logic::start_user_level_choice() {
         }
     }
 }
+
+
+
 
 

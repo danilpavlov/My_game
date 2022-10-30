@@ -115,6 +115,40 @@ void Singleton_Hero::set_hero_to_default(int new_x, int new_y) {
     hero_eated_shroom = false;
 }
 
+std::string Singleton_Hero::get_hero_model() {
+    return hero_model;
+}
+
+void Singleton_Hero::set_hero_model(std::string new_model) {
+    hero_model = new_model;
+}
+
+void Singleton_Hero::set_ghost_status(bool new_status) {
+    ghost_status = new_status;
+}
+
+void Singleton_Hero::set_pumpkin_status(bool new_status) {
+    pumpkin_status = new_status;
+}
+
+bool Singleton_Hero::get_ghost_status() {
+    return ghost_status;
+}
+
+bool Singleton_Hero::get_pumpkin_status() {
+    return pumpkin_status;
+}
+
+void Singleton_Hero::set_hero_moved_on_wall(bool new_status) {
+    hero_moved_on_wall = new_status;
+}
+
+bool Singleton_Hero::were_moved_on_wall() {
+    return hero_moved_on_wall;
+}
+
+
+
 
 
 

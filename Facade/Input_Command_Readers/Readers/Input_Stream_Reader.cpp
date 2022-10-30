@@ -5,5 +5,5 @@
 #include "Input_Stream_Reader.h"
 
 char Input_Stream_Reader::get_character() {
-    return getchar();
+    return std::cin.get();  // done
 }

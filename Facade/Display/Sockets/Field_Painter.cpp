@@ -9,12 +9,14 @@
 
 void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger, int level) {
 //    Данный метод создан для отрисовки всего, включая границы, игрового поля и отдельных игровых аспектов (Например: атрибуты героя)
-    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher;
+    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion;
+
+    Singleton_Hero* hero = Singleton_Hero::getInstance();
 
     switch(level){
         case 0:
             facet = "🌲";
-            hero_icon = "🧛🏻";
+            hero_icon = hero->get_hero_model();
             wall = "🪨";
             empty_cell = "🪹";
             heal = "🫀";
@@ -23,10 +25,14 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             enemy = "🧙";
             win_cell = "🍺";
             refresher = "🍄";
+            ghost = "👻";
+            pumpkin = "🎃";
+            drug = "💊";
+            heal_potion = "🚬";
             break;
         case 1:
             facet = "🥀";
-            hero_icon = "🧛🏻";
+            hero_icon = hero->get_hero_model();
             wall = "🪦";
             empty_cell = "🍁";
             heal = "🫀";
@@ -35,6 +41,10 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             enemy = "🧟";
             win_cell = "🍺";
             refresher = "🍄";
+            ghost = "👻";
+            pumpkin = "🎃";
+            drug = "💊";
+            heal_potion = "🚬";
             break;
         default:
             break;
@@ -47,7 +57,6 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
     std::vector< std::vector<Cell> > field_2d = main_field->get_field();
     int x = main_field->get_x();
     int y = main_field->get_y();
-    Singleton_Hero *hero = Singleton_Hero::getInstance();
 
     char Hero_color[] = { 0x1b, '[', '3', '8',';','5',';','1','9', '0', 'm',0 };  // ЦВЕТ ГЕРОЯ
     char Walls_color[] = { 0x1b, '[', '3', '8',';','5',';','8', '8', 'm',0 };  // ЦВЕТ СТЕН (ГРАНИЦ)
@@ -80,7 +89,7 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
         }
         for (int j = 0; j < x; j++){
             if (field_2d[i][j].get_state() == Cell::HERO){
-                std::cout << Hero_color << hero_icon << normal;                              // ИКОНКА ГЕРОЯ
+                std::cout << Hero_color << hero_icon << normal;
             }else if (field_2d[i][j].get_state() == Cell::WALL){
                 if (!hero->did_hero_eat_shroom()) {
                     std::cout << Walls_color_two << wall << normal;
@@ -89,7 +98,7 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
                 }
             }else if (field_2d[i][j].get_state() == Cell::EMPTY){
                 if (!hero->did_hero_eat_shroom()) {
-                    std::cout << Ground_color << empty_cell << normal;                              // СИМВОЛ ЗЕМЛИ
+                    std::cout << Ground_color << empty_cell << normal;
                 }else if (hero->did_hero_eat_shroom()){
                     std::cout << Ground_color << "🍀" << normal;
                 }
@@ -105,6 +114,14 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
                 std::cout << Ground_color << win_cell << normal;
             }else if (field_2d[i][j].get_state() == Cell::REFRESHER_OF_EVENTS){
                 std::cout << Ground_color << refresher << normal;
+            }else if (field_2d[i][j].get_state() == Cell::GHOST_HEAD){
+                std::cout << Ground_color << ghost << normal;
+            }else if (field_2d[i][j].get_state() == Cell::PUMPKIN_HEAD){
+                std::cout << Ground_color << pumpkin << normal;
+            }else if (field_2d[i][j].get_state() == Cell::DRUG){
+                std::cout << Ground_color << drug << normal;
+            }else if (field_2d[i][j].get_state() == Cell::HEAL_POTION){
+                std::cout << Ground_color << heal_potion << normal;
             }
         }
 

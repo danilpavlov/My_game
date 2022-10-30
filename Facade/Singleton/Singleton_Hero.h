@@ -14,6 +14,11 @@ private:
     static Singleton_Hero* instance;
     Singleton_Hero();
 
+    std::string hero_model = "🧛🏻";
+    bool ghost_status = false;
+    bool pumpkin_status = false;
+    bool hero_moved_on_wall = false;
+
 
     int hp;
     int xp;
@@ -45,6 +50,19 @@ public:
     void set_hero_shroom_status(bool new_shroom_status);
 
     void set_hero_to_default(int new_x, int new_y);
+
+
+    std::string get_hero_model();
+    void set_hero_model(std::string new_model);
+
+    void set_ghost_status(bool new_status);
+    void set_pumpkin_status(bool new_status);
+
+    bool get_ghost_status();
+    bool get_pumpkin_status();
+
+    bool were_moved_on_wall();
+    void set_hero_moved_on_wall(bool new_status);
 
 };
 
