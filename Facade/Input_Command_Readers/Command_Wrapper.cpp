@@ -15,6 +15,7 @@ Command_Wrapper::Command_Wrapper() {
 
     Settings.quit_file.open(Settings.quit_path);
     Settings.save_file.open(Settings.save_path);
+    Settings.load_file.open(Settings.load_path);
 
 
 
@@ -25,6 +26,8 @@ Command_Wrapper::Command_Wrapper() {
 
     commands.save = Settings.save_file.get();
     commands.quit = Settings.quit_file.get();
+    commands.load = Settings.load_file.get();
+
     commands.enter = Settings.enter_file.get();
     commands.set_log_stream = Settings.log_stream_file.get();
 
@@ -64,6 +67,7 @@ Command_Wrapper::~Command_Wrapper() {
 
     Settings.quit_file.close();
     Settings.save_file.close();
+    Settings.load_file.close();
 
     ////Inventory
     Settings.drop_consumable_file.close();
@@ -89,6 +93,9 @@ Command_Wrapper::command_type Command_Wrapper::read_user_symbol() {
 
     }else if (user_symbol == commands.save){
         return Command_Wrapper::SAVE;
+
+    }else if (user_symbol == commands.load){
+        return Command_Wrapper::LOAD;
 
     }else if (user_symbol == commands.up){
         return Command_Wrapper::MOVE_UP;

@@ -6,8 +6,6 @@
 
 void Refresh_Events::do_event(Field *main_field) {
 
-    Singleton_Hero* hero = Singleton_Hero::getInstance();
-    hero->set_hero_shroom_status(true);
     field = main_field->get_field();
 
     int magic_number = 123;

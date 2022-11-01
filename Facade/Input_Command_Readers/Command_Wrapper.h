@@ -32,6 +32,8 @@ struct Control_Settings{
     std::ifstream save_file;
     std::string save_path = "binds/Save.txt";
 
+    std::ifstream load_file;
+    std::string load_path = "binds/Load.txt";
 
     //// Inventory
     std::ifstream drop_consumable_file;
@@ -60,7 +62,9 @@ struct Commands{
     char quit;
     char enter;
     char set_log_stream;
+
     char save;
+    char load;
 
     //// Inventory
     char drop_consumable;
@@ -72,7 +76,7 @@ struct Commands{
 
 class Command_Wrapper {
 public:
-    enum command_type{MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, QUIT, ENTER, LOG_STREAM, SAVE,
+    enum command_type{MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, QUIT, ENTER, LOG_STREAM, SAVE, LOAD,
             DROP_CONSUMABLE, DROP_EQUIPMENT, SWITCH_CONSUMABLE, SWITCH_EQUIPMENT, USE_CONSUMABLE};
 
     Command_Wrapper();

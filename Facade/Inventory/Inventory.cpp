@@ -137,6 +137,11 @@ bool Inventory::has_empty_equipment_slots() {
 }
 
 void Inventory::clear_inventory() {
+    Singleton_Hero* hero = Singleton_Hero::getInstance();
+    hero->set_hero_model(DEFAULT_HERO_MODEL);
+    hero->set_ghost_status(false);
+    hero->set_pumpkin_status(false);
+
     equipment_slots.clear();
     consumable_slots.clear();
 

@@ -11,7 +11,7 @@ void Drug::use() {
 }
 
 std::string Drug::get_icon() {
-    return "💊";
+    return "🍄";
 }
 
 bool Drug::is_empty() {

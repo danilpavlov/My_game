@@ -26,31 +26,43 @@ void Saver::save(Field *main_filed) {
             for (int j = 0; j < main_filed->get_x(); j++){
                 switch(main_filed->get_field()[i][j].get_state()) {
                     case Cell::EMPTY:
-                        field_file << 0;
+                        field_file << '0';
                         break;
                     case Cell::HERO:
-                        field_file << 1;
+                        field_file << '1';
                         break;
                     case Cell::WALL:
-                        field_file << 2;
+                        field_file << '2';
                         break;
                     case Cell::HEAL:
-                        field_file << 3;
+                        field_file << '3';
                         break;
                     case Cell::XP:
-                        field_file << 4;
+                        field_file << '4';
                         break;
                     case Cell::ENEMY:
-                        field_file << 5;
+                        field_file << '5';
                         break;
                     case Cell::TELEPORT:
-                        field_file << 6;
+                        field_file << '6';
                         break;
                     case Cell::WIN:
-                        field_file << 7;
+                        field_file << '7';
                         break;
                     case Cell::REFRESHER_OF_EVENTS:
-                        field_file << 8;
+                        field_file << '8';
+                        break;
+                    case Cell::PUMPKIN_HEAD:
+                        field_file << '9';
+                        break;
+                    case Cell::GHOST_HEAD:
+                        field_file << 'G';
+                        break;
+                    case Cell::DRUG:
+                        field_file << 'D';
+                        break;
+                    case Cell::HEAL_POTION:
+                        field_file << 'H';
                         break;
                 }
             }
@@ -140,5 +152,5 @@ void Saver::clear_all_files() {
 }
 
 Memento *Saver::save_current_memento() {
-    return new Save_Pool();
+    return new Memento_Save();
 }

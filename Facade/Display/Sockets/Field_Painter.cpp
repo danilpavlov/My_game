@@ -24,11 +24,11 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             teleport = "💨";
             enemy = "🧙";
             win_cell = "🍺";
-            refresher = "🍄";
+            refresher = "🧞";
             ghost = "👻";
             pumpkin = "🎃";
-            drug = "💊";
-            heal_potion = "🚬";
+            drug = "🍄";
+            heal_potion = "💊";
             break;
         case 1:
             facet = "🥀";
@@ -40,11 +40,11 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             teleport = "💨";
             enemy = "🧟";
             win_cell = "🍺";
-            refresher = "🍄";
+            refresher = "🧞";
             ghost = "👻";
             pumpkin = "🎃";
-            drug = "💊";
-            heal_potion = "🚬";
+            drug = "🍄";
+            heal_potion = "💊";
             break;
         default:
             break;

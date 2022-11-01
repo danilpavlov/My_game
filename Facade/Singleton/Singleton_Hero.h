@@ -8,13 +8,15 @@
 #include <iostream>
 #include "../Logs/ISubject.h"
 
+#define DEFAULT_HERO_MODEL "🧛🏻"
+
 
 class Singleton_Hero{
 private:
     static Singleton_Hero* instance;
     Singleton_Hero();
 
-    std::string hero_model = "🧛🏻";
+    std::string hero_model = DEFAULT_HERO_MODEL;
     bool ghost_status = false;
     bool pumpkin_status = false;
     bool hero_moved_on_wall = false;

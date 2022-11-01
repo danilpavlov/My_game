@@ -2,10 +2,10 @@
 // Created by Даниил Павлов on 23.10.2022.
 //
 
-#include "Save_Pool.h"
+#include "Memento_Save.h"
 #include <exception>
 
-std::vector<std::vector<Cell>> Save_Pool::get_field() const {
+std::vector<std::vector<Cell>> Memento_Save::get_field() const {
     std::vector<std::vector<Cell>> field;
 
     std::string path = "Save/Saved_Field.txt";
@@ -59,6 +59,21 @@ std::vector<std::vector<Cell>> Save_Pool::get_field() const {
                     tmp_cell.set_state(Cell::REFRESHER_OF_EVENTS);
                     tmp_cell.set_event(Cell::GLOBAL_EVENT);
                     break;
+                case '9':
+                    tmp_cell.set_state(Cell::PUMPKIN_HEAD);
+                    tmp_cell.set_event(Cell::ITEM);
+                    break;
+                case 'G':
+                    tmp_cell.set_state(Cell::GHOST_HEAD);
+                    tmp_cell.set_event(Cell::ITEM);
+                    break;
+                case 'D':
+                    tmp_cell.set_state(Cell::DRUG);
+                    tmp_cell.set_event(Cell::ITEM);
+                case 'H':
+                    tmp_cell.set_state(Cell::HEAL_POTION);
+                    tmp_cell.set_event(Cell::ITEM);
+                    break;
                 default:
                     break;
             }
@@ -75,7 +90,7 @@ std::vector<std::vector<Cell>> Save_Pool::get_field() const {
     return field;
 }
 
-int Save_Pool::hero_position(Singleton_Hero::coordinates coordinate) const {
+int Memento_Save::hero_position(Singleton_Hero::coordinates coordinate) const {
     int position;
     std::string path;
     std::ifstream file;
@@ -108,7 +123,7 @@ int Save_Pool::hero_position(Singleton_Hero::coordinates coordinate) const {
     return position;
 }
 
-int Save_Pool::hero_attribute(Singleton_Hero::hero_attributes attribute) const {
+int Memento_Save::hero_attribute(Singleton_Hero::hero_attributes attribute) const {
     int attribute_amount;
 
     std::ifstream file;
@@ -148,7 +163,7 @@ int Save_Pool::hero_attribute(Singleton_Hero::hero_attributes attribute) const {
     return attribute_amount;
 }
 
-int Save_Pool::field_level() const {
+int Memento_Save::field_level() const {
     int level;
     std::string path = "Save/Saved_Field_Level.txt";
     std::ifstream file;

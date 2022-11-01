@@ -34,212 +34,234 @@ Game_Logic::Game_Logic() {
 
 
 void Game_Logic::start_new_game() {
-    switch(current_level) {
-        case Game_Logic::FIRST:
-            system("afplay Music/Joy_Division__Disorder.mp3 &");
-            break;
-        case Game_Logic::SECOND:
-            system("afplay Music/Slint__Nosferatu_Man.mp3 &");
-            break;
-        default:
-            break;
-    }
-    char dynamic_message_color[] = { 0x1b, '[', '3', '8',';','5',';','1', '6', '6', 'm',0 };
-    char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
+    while(!end) {
 
-    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+        switch (current_level) {
+            case Game_Logic::FIRST:
+                system("afplay Music/Joy_Division__Disorder.mp3 &");
+                break;
+            case Game_Logic::SECOND:
+                system("afplay Music/Slint__Nosferatu_Man.mp3 &");
+                break;
+            default:
+                break;
+        }
+        char dynamic_message_color[] = {0x1b, '[', '3', '8', ';', '5', ';', '1', '6', '6', 'm', 0};
+        char normal[] = {0x1b, '[', '0', ';', '3', '9', 'm', 0};
 
-    while (true) {
+        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
 
-        if (kbhit()) {
-            switch (command_wrapper->read_user_symbol()) {
-                case Command_Wrapper::MOVE_UP:
+        while (true) {
 
-                    system("clear");
-                    display_wrapper->in_game_intro();
+            if (kbhit()) {
+                switch (command_wrapper->read_user_symbol()) {
+                    case Command_Wrapper::MOVE_UP:
 
-                    mediator->move_hero(Mediator::UP, ground, inventory);
+                        system("clear");
+                        display_wrapper->in_game_intro();
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
+                        mediator->move_hero(Mediator::UP, ground, inventory);
 
-                case Command_Wrapper::MOVE_LEFT:
-                    system("clear");
-                    display_wrapper->in_game_intro();
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
 
-                    mediator->move_hero(Mediator::LEFT, ground, inventory);
+                    case Command_Wrapper::MOVE_LEFT:
+                        system("clear");
+                        display_wrapper->in_game_intro();
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
+                        mediator->move_hero(Mediator::LEFT, ground, inventory);
 
-                case Command_Wrapper::MOVE_RIGHT:
-                    system("clear");
-                    display_wrapper->in_game_intro();
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
 
-                    mediator->move_hero(Mediator::RIGHT, ground, inventory);
+                    case Command_Wrapper::MOVE_RIGHT:
+                        system("clear");
+                        display_wrapper->in_game_intro();
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
+                        mediator->move_hero(Mediator::RIGHT, ground, inventory);
 
-                case Command_Wrapper::MOVE_DOWN:
-                    system("clear");
-                    display_wrapper->in_game_intro();
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
 
-                    mediator->move_hero(Mediator::DOWN, ground, inventory);
+                    case Command_Wrapper::MOVE_DOWN:
+                        system("clear");
+                        display_wrapper->in_game_intro();
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
+                        mediator->move_hero(Mediator::DOWN, ground, inventory);
 
-                case Command_Wrapper::QUIT:
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
 
-                    system("clear");
+                    case Command_Wrapper::QUIT:
 
+                        system("clear");
+
+                        end = true;
+                        quit = true;
+                        break;
+
+                    case Command_Wrapper::LOG_STREAM:
+                        logging_setter += 1;
+
+                        if (fmod(logging_setter, 4) == 0) {
+                            Attach_all_to(fileLogger_);
+                            Detach_all_from(consoleLogger_);
+
+                            display_wrapper->set_logging(0);
+                            system("clear");
+                            display_wrapper->in_game_intro();
+                            display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        } else if (fmod(logging_setter, 4) == 1) {
+                            Detach_all_from(fileLogger_);
+                            Attach_all_to(consoleLogger_);
+
+                            display_wrapper->set_logging(1);
+                            system("clear");
+                            display_wrapper->in_game_intro();
+                            display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        } else if (fmod(logging_setter, 4) == 2) {
+                            Attach_all_to(fileLogger_);
+
+                            display_wrapper->set_logging(2);
+                            system("clear");
+                            display_wrapper->in_game_intro();
+                            display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        } else if (fmod(logging_setter, 4) == 3) {
+                            Detach_all_from(consoleLogger_);
+                            Detach_all_from(fileLogger_);
+
+                            display_wrapper->set_logging(3);
+                            system("clear");
+                            display_wrapper->in_game_intro();
+                            display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        }
+                        break;
+
+                    case Command_Wrapper::SAVE:
+                        std::cout << dynamic_message_color << "\tGame Was Saved!" << normal << std::endl;
+                        caretaker->backup();
+                        game_saver->save(ground);
+                        break;
+
+                    case Command_Wrapper::LOAD:
+                        system("clear");
+                        load_checker = true;
+                        end = true;
+                        break;
+
+                    case Command_Wrapper::SWITCH_EQUIPMENT:
+                        system("clear");
+                        display_wrapper->in_game_intro();
+
+                        inventory->switch_equipment();
+
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
+
+                    case Command_Wrapper::SWITCH_CONSUMABLE:
+                        system("clear");
+                        display_wrapper->in_game_intro();
+
+                        inventory->switch_consumable();
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
+
+                    case Command_Wrapper::USE_CONSUMABLE:
+                        system("clear");
+                        display_wrapper->in_game_intro();
+
+                        inventory->use_consumable();
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
+
+                    case Command_Wrapper::DROP_EQUIPMENT:
+                        system("clear");
+                        display_wrapper->in_game_intro();
+
+                        inventory->throw_out(inventory->get_equipment_slots()[inventory->get_equipment_switcher() % 3]);
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
+
+                    case Command_Wrapper::DROP_CONSUMABLE:
+                        system("clear");
+                        display_wrapper->in_game_intro();
+
+                        inventory->throw_out(
+                                inventory->get_consumable_slots()[inventory->get_consumable_switcher() % 3]);
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
+
+                    default:
+                        break;
+
+                }
+                ///// END SWITCH-CASE :)
+
+                if (hero->is_hero_won()) {
                     end = true;
-                    quit = true;
-                    break;
+                    load_checker = false;
 
-                case Command_Wrapper::LOG_STREAM:
-                    logging_setter += 1;
+                    system("killall afplay");
+                    system("afplay Music/The_Smiths__This_Charming_Man.mp3 &");
+                    inventory->clear_inventory();
+                    display_wrapper->print_victory(TAB);
 
-                    if (fmod(logging_setter, 4) == 0){
-                        Attach_all_to(fileLogger_);
-                        Detach_all_from(consoleLogger_);
 
-                        display_wrapper->set_logging(0);
-                        system("clear");
-                        display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    }else if (fmod(logging_setter, 4) == 1){
-                        Detach_all_from(fileLogger_);
-                        Attach_all_to(consoleLogger_);
+                    while (true) {
+                        if (kbhit()) {
+                            system("killall afplay");
+                            system("afplay Music/Have_A_Nice_Life__Bloodhail.mp3 &");
 
-                        display_wrapper->set_logging(1);
-                        system("clear");
-                        display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    }else if (fmod(logging_setter, 4) == 2){
-                        Attach_all_to(fileLogger_);
+                            system("clear");
+                            display_wrapper->in_game_intro();
+                            mediator->move_level_choice(GUI_Display::BACK);
 
-                        display_wrapper->set_logging(2);
-                        system("clear");
-                        display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    }else if (fmod(logging_setter, 4) == 3){
-                        Detach_all_from(consoleLogger_);
-                        Detach_all_from(fileLogger_);
-
-                        display_wrapper->set_logging(3);
-                        system("clear");
-                        display_wrapper->in_game_intro();
-                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                            break;
+                        }
                     }
+
                     break;
+                } else if (!hero->is_alive()) {
+                    end = true;
+                    load_checker = false;
 
-                case Command_Wrapper::SAVE:
-                    std::cout << dynamic_message_color << "\tGame Was Saved!" << normal <<std::endl;
-                    caretaker->backup();
-                    game_saver->save(ground);
-                    break;
+                    system("killall afplay");
+                    system("afplay Music/1-1.mp3 &");
+                    inventory->clear_inventory();
+                    display_wrapper->print_lose(true, TAB);
 
-                case Command_Wrapper::SWITCH_EQUIPMENT:
-                    system("clear");
-                    display_wrapper->in_game_intro();
+                    while (true) {
+                        if (kbhit()) {
+                            system("killall afplay");
+                            system("afplay Music/Have_A_Nice_Life__Bloodhail.mp3 &");
 
-                    inventory->switch_equipment();
+                            system("clear");
+                            display_wrapper->in_game_intro();
+                            mediator->move_level_choice(GUI_Display::BACK);
 
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
-
-                case Command_Wrapper::SWITCH_CONSUMABLE:
-                    system("clear");
-                    display_wrapper->in_game_intro();
-
-                    inventory->switch_consumable();
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
-
-                case Command_Wrapper::USE_CONSUMABLE:
-                    system("clear");
-                    display_wrapper->in_game_intro();
-
-                    inventory->use_consumable();
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
-
-                case Command_Wrapper::DROP_EQUIPMENT:
-                    system("clear");
-                    display_wrapper->in_game_intro();
-
-                    inventory->throw_out( inventory->get_equipment_slots() [inventory->get_equipment_switcher()%3] );
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
-
-                case Command_Wrapper::DROP_CONSUMABLE:
-                    system("clear");
-                    display_wrapper->in_game_intro();
-
-                    inventory->throw_out( inventory->get_consumable_slots() [inventory->get_consumable_switcher()%3] );
-                    display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
-                    break;
-
-                default:
-                    break;
-
-            }
-            ///// END SWITCH-CASE :)
-
-            if (hero->is_hero_won()){
-                system("killall afplay");
-                system("afplay Music/The_Smiths__This_Charming_Man.mp3 &");
-                inventory->clear_inventory();
-                display_wrapper->print_victory(TAB);
-
-
-                while(true){
-                    if (kbhit()){
-                        system("killall afplay");
-                        system("afplay Music/Have_A_Nice_Life__Bloodhail.mp3 &");
-
-                        system("clear");
-                        display_wrapper->in_game_intro();
-                        mediator->move_level_choice(GUI_Display::BACK);
-
-                        break;
+                            break;
+                        }
                     }
+
+                    break;
                 }
 
-                break;
-            }else if (!hero->is_alive()){
-                system("killall afplay");
-                system("afplay Music/1-1.mp3 &");
-                inventory->clear_inventory();
-                display_wrapper->print_lose(true, TAB);
-
-                while(true){
-                    if (kbhit()){
-                        system("killall afplay");
-                        system("afplay Music/Have_A_Nice_Life__Bloodhail.mp3 &");
-
-                        system("clear");
-                        display_wrapper->in_game_intro();
-                        mediator->move_level_choice(GUI_Display::BACK);
-
-                        break;
-                    }
-                }
-
-                break;
             }
 
+            hero->set_hero_attribute(Singleton_Hero::level, hero->get_hero_attribute(Singleton_Hero::experience) / 7);
+            if (end) {
+                end_choice = true;
+                break;
+            }
         }
-        hero->set_hero_attribute(Singleton_Hero::level, hero->get_hero_attribute(Singleton_Hero::experience)/7);
-        if (end){
-            end_choice = true;
-            break;
+        if (load_checker){
+            end = false;
+            load_checker = false;
+            quick_load();
         }
     }
 
-
+    end = false;
 }
 
 
@@ -466,6 +488,7 @@ void Game_Logic::start_user_level_choice() {
 
 
                             Game_Logic::start_new_game();
+
                             break;
                         case GUI_Display::SECOND_LEVEL:
                             system("killall afplay");
@@ -474,6 +497,7 @@ void Game_Logic::start_user_level_choice() {
 
 
                             Game_Logic::start_new_game();
+
                             break;
                         case GUI_Display::BACK:
                             mediator->move_menu(GUI_Display::NEW_GAME);
@@ -485,6 +509,23 @@ void Game_Logic::start_user_level_choice() {
                     break;
             }
         }
+    }
+}
+
+void Game_Logic::quick_load() {
+    load_checker = false;
+    end = false;
+    try {
+        ground->clear_field();
+        hero->set_hero_to_default(0, 0);
+        caretaker->load_game(ground);
+        mediator->set_field(ground);
+        system("killall afplay");
+
+        current_level = static_cast<levels>(ground->get_level() - 1);
+        display_wrapper->in_game_intro();
+    }catch (std::exception){
+        display_wrapper->print_cant_load();
     }
 }
 

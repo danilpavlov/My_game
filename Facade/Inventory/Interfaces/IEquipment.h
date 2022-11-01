@@ -10,7 +10,6 @@ class IEquipment {
 public:
     virtual void put_on() = 0;
     virtual std::string get_icon() = 0;
-    virtual void throw_out();
     virtual bool is_empty() = 0;
 protected:
     bool empty;

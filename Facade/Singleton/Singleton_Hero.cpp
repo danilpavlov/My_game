@@ -5,7 +5,6 @@
 #include "Singleton_Hero.h"
 #include <iostream>
 
-
 Singleton_Hero *Singleton_Hero::getInstance() {
     if (instance == 0){
         instance = new Singleton_Hero();

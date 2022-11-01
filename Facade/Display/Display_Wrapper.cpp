@@ -167,11 +167,11 @@ void Display_Wrapper::draw_field_only(Field *field, int level) {
             teleport = "💨";
             enemy = "🧙";
             win_cell = "🍺";
-            refresher = "🍄";
+            refresher = "🧞";
             ghost = "👻";
             pumpkin = "🎃";
-            drug = "💊";
-            heal_potion = "🚬";
+            drug = "🍄";
+            heal_potion = "💊";
             break;
         case 1:
             facet = "🥀";
@@ -183,11 +183,11 @@ void Display_Wrapper::draw_field_only(Field *field, int level) {
             teleport = "💨";
             enemy = "🧟";
             win_cell = "🍺";
-            refresher = "🍄";
+            refresher = "🧞";
             ghost = "👻";
             pumpkin = "🎃";
-            drug = "💊";
-            heal_potion = "🚬";
+            drug = "🍄";
+            heal_potion = "💊";
             break;
         default:
             break;

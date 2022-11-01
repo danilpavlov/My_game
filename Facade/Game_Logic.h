@@ -66,6 +66,7 @@ private:
 
     bool end = false;
     bool quit = false;
+    bool load_checker = false;
 
     void start_new_game();
 
@@ -96,6 +97,8 @@ private:
     Caretaker* caretaker;
 
     Inventory* inventory;
+
+    void quick_load();
 
 };
 
