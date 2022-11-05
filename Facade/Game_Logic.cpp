@@ -30,6 +30,8 @@ Game_Logic::Game_Logic() {
     caretaker->backup();
 
     inventory = new Inventory;
+
+    weather_wrapper = new Weather_Wrapper;
 }
 
 
@@ -51,9 +53,35 @@ void Game_Logic::start_new_game() {
 
         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
 
+
         while (true) {
 
+
             if (kbhit()) {
+
+                //// weather generator
+                int random_x1, random_x2, random_y1, random_y2, tmp_1, tmp_2;
+                tmp_1 = std::rand() % ground->get_x();
+                tmp_2 = std::rand() % ground->get_x();
+                random_x1 = std::min(tmp_1, tmp_2);
+                random_x2 = std::max(tmp_1, tmp_2);
+
+                tmp_1 = std::rand() % ground->get_y();
+                tmp_2 = std::rand() % ground->get_y();
+                random_y1 = std::min(tmp_1, tmp_2);
+                random_y2 = std::max(tmp_1, tmp_2);
+                if (!is_weather_right_now && (std::rand() % 1000 > 960)) {
+                    weather_wrapper->set_zone(random_x1, random_x2, random_y1, random_y2);
+                    weather_wrapper->cause_the_weather(ground, std::rand() % weather_wrapper->possible_weather_amount());
+                    weather_wrapper->set_start_time();
+                    is_weather_right_now = true;
+
+                }else if (is_weather_right_now &&  (std::rand() % 1000 > 990)){
+                    weather_wrapper->remove_the_weather(ground);
+                    is_weather_right_now = false;
+                }
+                ////
+
                 switch (command_wrapper->read_user_symbol()) {
                     case Command_Wrapper::MOVE_UP:
 
@@ -153,7 +181,7 @@ void Game_Logic::start_new_game() {
                         system("clear");
                         display_wrapper->in_game_intro();
 
-                        inventory->switch_equipment();
+                        inventory->switch_mask();
 
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
@@ -163,6 +191,14 @@ void Game_Logic::start_new_game() {
                         display_wrapper->in_game_intro();
 
                         inventory->switch_consumable();
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
+
+                    case Command_Wrapper::SWITCH_BOOT:
+                        system("clear");
+                        display_wrapper->in_game_intro();
+
+                        inventory->switch_boot();
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
 
@@ -178,7 +214,7 @@ void Game_Logic::start_new_game() {
                         system("clear");
                         display_wrapper->in_game_intro();
 
-                        inventory->throw_out(inventory->get_equipment_slots()[inventory->get_equipment_switcher() % 3]);
+                        inventory->throw_out(inventory->get_mask_slots()[inventory->get_mask_switcher() % 3]);
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
 
@@ -191,6 +227,14 @@ void Game_Logic::start_new_game() {
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
 
+                    case Command_Wrapper::DROP_BOOT:
+                        system("clear");
+                        display_wrapper->in_game_intro();
+
+                        inventory->throw_out(
+                                inventory->get_boot_slots()[inventory->get_boot_switcher() % 3]);
+                        display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
+                        break;
                     default:
                         break;
 
@@ -205,7 +249,6 @@ void Game_Logic::start_new_game() {
                     system("afplay Music/The_Smiths__This_Charming_Man.mp3 &");
                     inventory->clear_inventory();
                     display_wrapper->print_victory(TAB);
-
 
                     while (true) {
                         if (kbhit()) {
@@ -242,12 +285,9 @@ void Game_Logic::start_new_game() {
                             break;
                         }
                     }
-
                     break;
                 }
-
             }
-
             hero->set_hero_attribute(Singleton_Hero::level, hero->get_hero_attribute(Singleton_Hero::experience) / 7);
             if (end) {
                 end_choice = true;
@@ -396,7 +436,7 @@ Game_Logic::~Game_Logic() {
     delete fileLogger_;
     delete request_input_stream;
 
-
+    delete weather_wrapper;
 }
 
 void Game_Logic::generate_level(levels current_level_) {

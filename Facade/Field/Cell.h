@@ -7,8 +7,10 @@
 
 class Cell {
 public:
-    enum cell_state{HERO, EMPTY, WALL, HEAL, XP, TELEPORT, ENEMY, WIN, REFRESHER_OF_EVENTS, GHOST_HEAD, PUMPKIN_HEAD, HEAL_POTION, DRUG};
+    enum cell_state{HERO, EMPTY, WALL, HEAL, XP, TELEPORT, ENEMY, WIN, REFRESHER_OF_EVENTS, GHOST_HEAD, PUMPKIN_HEAD, HEAL_POTION, DRUG, SLIPPERS, SOCKS};
     enum cell_event{NO_EVENT, POSITIVE_EVENT, NEGATIVE_EVENT, GLOBAL_EVENT, ITEM};
+
+    enum weather_status{NONE, FREEZE, THUNDER, FOG};
 
     cell_state get_state() const{
         return state_now;
@@ -26,15 +28,23 @@ public:
         event_now = new_event;
     }
 
+    weather_status get_weather() const{
+        return weather_now;
+    }
+
+    void set_weather(weather_status new_weather_status){
+        weather_now = new_weather_status;
+    }
 
 
-    Cell(cell_state state_now, cell_event event_now);
+    Cell(cell_state, cell_event, weather_status);
 
 
 
 private:
     cell_state state_now;
     cell_event event_now;
+    weather_status weather_now;
 
 };
 

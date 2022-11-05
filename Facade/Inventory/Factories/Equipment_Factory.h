@@ -4,15 +4,25 @@
 
 #ifndef MY_GAME_EQUIPMENT_FACTORY_H
 #define MY_GAME_EQUIPMENT_FACTORY_H
-#include "../ConcreteEquipment/Ghost_Head.h"
-#include "../ConcreteEquipment/Pumpkin_Head.h"
-#include "../ConcreteEquipment/No_Equipment.h"
+#include "../ConcreteMasks/Ghost_Head.h"
+#include "../ConcreteMasks/Pumpkin_Head.h"
+#include "../ConcreteMasks/No_Head.h"
+
+#include "../ConcreteBoots/Slippers.h"
+#include "../ConcreteBoots/Socks.h"
+#include "../ConcreteBoots/No_Boots.h"
+
 
 class Equipment_Factory {
 public:
-    IEquipment* put_ghost_head_in_inventory();
-    IEquipment* put_pumpkin_head_in_inventory();
-    IEquipment* put_no_equipment_in_inventory();
+    IMask* put_ghost_head_in_inventory();
+    IMask* put_pumpkin_head_in_inventory();
+    IMask* put_no_head_in_inventory();
+
+    IBoot* put_slippers_in_inventory();
+    IBoot* put_socks_in_inventory();
+    IBoot* put_no_boot_in_inventory();
+
 };
 
 

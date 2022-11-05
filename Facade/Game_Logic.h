@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
+#include <random>
 #include <ctime>
 #include <ncurses.h>
 #include "../kbhit.h"
@@ -38,6 +39,8 @@
 #include "Memento_Saver/Caretaker.h"
 
 #include "Inventory/Inventory.h"
+
+#include "Weather/Weather_Wrapper.h"
 
 class Game_Logic{
 public:
@@ -100,6 +103,8 @@ private:
 
     void quick_load();
 
+    Weather_Wrapper* weather_wrapper;
+    bool is_weather_right_now = false;
 };
 
 

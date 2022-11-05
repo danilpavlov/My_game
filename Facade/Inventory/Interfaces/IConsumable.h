@@ -11,6 +11,7 @@ public:
     virtual void use() = 0;
     virtual std::string get_icon() = 0;
     virtual bool is_empty() = 0;
+    virtual int get_weight() = 0;
 protected:
     bool empty;
 };

@@ -9,7 +9,7 @@
 #include "../Logs/ISubject.h"
 
 #define DEFAULT_HERO_MODEL "🧛🏻"
-
+#define MAX_WEIGHT 120
 
 class Singleton_Hero{
 private:
@@ -20,6 +20,9 @@ private:
     bool ghost_status = false;
     bool pumpkin_status = false;
     bool hero_moved_on_wall = false;
+
+    bool socks_mode = false;
+    bool slippers_mode = false;
 
 
     int hp;
@@ -32,6 +35,8 @@ private:
     bool victory = false;
 
     bool hero_eated_shroom = false;
+
+    int weight = 0;
 public:
     enum hero_attributes{health_points, experience, level};
     enum coordinates{x, y};
@@ -66,6 +71,13 @@ public:
     bool were_moved_on_wall();
     void set_hero_moved_on_wall(bool new_status);
 
+    bool get_socks_status();
+    bool get_slippers_status();
+    void set_socks_status(bool);
+    void set_slippers_status(bool);
+
+    void set_weight(int);
+    int get_weight();
 };
 
 

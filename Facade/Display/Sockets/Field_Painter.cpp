@@ -9,7 +9,8 @@
 
 void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger, int level) {
 //    Данный метод создан для отрисовки всего, включая границы, игрового поля и отдельных игровых аспектов (Например: атрибуты героя)
-    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion;
+    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion, slippers, socks;
+    std::string thunder, fog, freeze;
 
     Singleton_Hero* hero = Singleton_Hero::getInstance();
 
@@ -29,6 +30,12 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             pumpkin = "🎃";
             drug = "🍄";
             heal_potion = "💊";
+            slippers = "🩴";
+            socks = "🧦";
+
+            thunder = "🔥";
+            fog = "💭";
+            freeze = "💎";
             break;
         case 1:
             facet = "🥀";
@@ -45,6 +52,12 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             pumpkin = "🎃";
             drug = "🍄";
             heal_potion = "💊";
+            slippers = "🩴";
+            socks = "🧦";
+
+            thunder = "🔥";
+            fog = "💭";
+            freeze = "💎";
             break;
         default:
             break;
@@ -88,40 +101,57 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             std::cout << Walls_color << "🌈" << normal;
         }
         for (int j = 0; j < x; j++){
-            if (field_2d[i][j].get_state() == Cell::HERO){
-                std::cout << Hero_color << hero_icon << normal;
-            }else if (field_2d[i][j].get_state() == Cell::WALL){
-                if (!hero->did_hero_eat_shroom()) {
-                    std::cout << Walls_color_two << wall << normal;
-                }else if (hero->did_hero_eat_shroom()){
-                    std::cout << Walls_color_two << "🌞" << normal;
+            if (field_2d[i][j].get_weather() != Cell::FOG) {
+
+                if (field_2d[i][j].get_state() == Cell::HERO) {
+                    std::cout << Hero_color << hero_icon << normal;
+                } else if (field_2d[i][j].get_state() == Cell::WALL) {
+                    if (!hero->did_hero_eat_shroom()) {
+                        std::cout << Walls_color_two << wall << normal;
+                    } else if (hero->did_hero_eat_shroom()) {
+                        std::cout << Walls_color_two << "🌞" << normal;
+                    }
+                } else if (field_2d[i][j].get_state() == Cell::EMPTY) {
+
+                    if (field_2d[i][j].get_weather() == Cell::NONE) {
+                        if (!hero->did_hero_eat_shroom()) {
+                            std::cout << Ground_color << empty_cell << normal;
+                        } else if (hero->did_hero_eat_shroom()) {
+                            std::cout << Ground_color << "🍀" << normal;
+                        }
+                    }else if (field_2d[i][j].get_weather() == Cell::FREEZE){
+                        std::cout << freeze << normal;
+                    }else if (field_2d[i][j].get_weather() == Cell::THUNDER){
+                        std::cout << thunder << normal;
+                    }
+                } else if (field_2d[i][j].get_state() == Cell::HEAL) {
+                    std::cout << Walls_color << heal << normal;
+                } else if (field_2d[i][j].get_state() == Cell::XP) {
+                    std::cout << Ground_color << xp << normal;
+                } else if (field_2d[i][j].get_state() == Cell::TELEPORT) {
+                    std::cout << Ground_color << teleport << normal;
+                } else if (field_2d[i][j].get_state() == Cell::ENEMY) {
+                    std::cout << Ground_color << enemy << normal;
+                } else if (field_2d[i][j].get_state() == Cell::WIN) {
+                    std::cout << Ground_color << win_cell << normal;
+                } else if (field_2d[i][j].get_state() == Cell::REFRESHER_OF_EVENTS) {
+                    std::cout << Ground_color << refresher << normal;
+                } else if (field_2d[i][j].get_state() == Cell::GHOST_HEAD) {
+                    std::cout << Ground_color << ghost << normal;
+                } else if (field_2d[i][j].get_state() == Cell::PUMPKIN_HEAD) {
+                    std::cout << Ground_color << pumpkin << normal;
+                } else if (field_2d[i][j].get_state() == Cell::DRUG) {
+                    std::cout << Ground_color << drug << normal;
+                } else if (field_2d[i][j].get_state() == Cell::HEAL_POTION) {
+                    std::cout << Ground_color << heal_potion << normal;
+                } else if (field_2d[i][j].get_state() == Cell::SLIPPERS) {
+                    std::cout << Ground_color << slippers << normal;
+                } else if (field_2d[i][j].get_state() == Cell::SOCKS) {
+                    std::cout << Ground_color << socks << normal;
                 }
-            }else if (field_2d[i][j].get_state() == Cell::EMPTY){
-                if (!hero->did_hero_eat_shroom()) {
-                    std::cout << Ground_color << empty_cell << normal;
-                }else if (hero->did_hero_eat_shroom()){
-                    std::cout << Ground_color << "🍀" << normal;
-                }
-            }else if (field_2d[i][j].get_state() == Cell::HEAL){
-                std::cout << Walls_color << heal << normal;
-            }else if (field_2d[i][j].get_state() == Cell::XP){
-                std::cout << Ground_color << xp << normal;
-            }else if (field_2d[i][j].get_state() == Cell::TELEPORT){
-                std::cout << Ground_color << teleport << normal;
-            }else if (field_2d[i][j].get_state() == Cell::ENEMY){
-                std::cout << Ground_color << enemy << normal;
-            }else if (field_2d[i][j].get_state() == Cell::WIN){
-                std::cout << Ground_color << win_cell << normal;
-            }else if (field_2d[i][j].get_state() == Cell::REFRESHER_OF_EVENTS){
-                std::cout << Ground_color << refresher << normal;
-            }else if (field_2d[i][j].get_state() == Cell::GHOST_HEAD){
-                std::cout << Ground_color << ghost << normal;
-            }else if (field_2d[i][j].get_state() == Cell::PUMPKIN_HEAD){
-                std::cout << Ground_color << pumpkin << normal;
-            }else if (field_2d[i][j].get_state() == Cell::DRUG){
-                std::cout << Ground_color << drug << normal;
-            }else if (field_2d[i][j].get_state() == Cell::HEAL_POTION){
-                std::cout << Ground_color << heal_potion << normal;
+
+            }else{
+                std::cout << fog << normal;
             }
         }
 
@@ -295,13 +325,13 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
 
     std::cout << std::endl << std::endl;
 
-
-    std::cout << std::endl;
+    TAB_PUSH
+    std::cout <<  lv_table <<  "INVENTORY WEIGHT: " << lv_table_number <<hero->get_weight() << " / " << MAX_WEIGHT <<std::endl;
 
 
     TAB_PUSH
     std::cout << lv_table << "Level: "<< lv_table_number    // ОТРИСОВКА УРОВНЯ ГЕРОЯ
-              << hero->get_hero_attribute(Singleton_Hero::level) << normal;
+              << hero->get_hero_attribute(Singleton_Hero::level) <<normal;
 
     char logging_color[] = { 0x1b, '[', '3', '8',';','5',';','9','4', 'm',0 };   // Цвет надписи Логов
     char active_logging_color[] = { 0x1b, '[', '3', '8',';','5',';','1','6', '0', 'm',0 };   // Логирование Активно
@@ -322,6 +352,7 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
         default:
             break;
     }
+
 
 
 }

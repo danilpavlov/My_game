@@ -4,7 +4,7 @@
 
 #include "Cell.h"
 
-Cell::Cell(cell_state state_now, cell_event event_now) : state_now(state_now), event_now(event_now) {}
+Cell::Cell(cell_state state_now, cell_event event_now, weather_status weatherStatus) : state_now(state_now), event_now(event_now), weather_now(weatherStatus) {}
 
 
 

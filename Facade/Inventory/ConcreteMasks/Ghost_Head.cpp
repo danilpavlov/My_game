@@ -20,3 +20,7 @@ bool Ghost_Head::is_empty() {
     return false;
 }
 
+int Ghost_Head::get_weight() {
+    return GHOST_HEAD_WEIGHT;
+}
+

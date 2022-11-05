@@ -175,6 +175,7 @@ void Attribute_display::show_xp_display() {
     }
     std::cout<< std::endl;
 
+
 }
 
 

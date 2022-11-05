@@ -146,6 +146,30 @@ bool Singleton_Hero::were_moved_on_wall() {
     return hero_moved_on_wall;
 }
 
+bool Singleton_Hero::get_socks_status() {
+    return socks_mode;
+}
+
+bool Singleton_Hero::get_slippers_status() {
+    return slippers_mode;
+}
+
+void Singleton_Hero::set_socks_status(bool new_status) {
+    socks_mode = new_status;
+}
+
+void Singleton_Hero::set_slippers_status(bool new_status) {
+    slippers_mode = new_status;
+}
+
+void Singleton_Hero::set_weight(int new_weight) {
+    weight = new_weight;
+}
+
+int Singleton_Hero::get_weight() {
+    return weight;
+}
+
 
 
 

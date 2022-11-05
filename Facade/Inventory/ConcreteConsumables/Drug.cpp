@@ -17,3 +17,7 @@ std::string Drug::get_icon() {
 bool Drug::is_empty() {
     return false;
 }
+
+int Drug::get_weight() {
+    return DRUG_WEIGHT;
+}

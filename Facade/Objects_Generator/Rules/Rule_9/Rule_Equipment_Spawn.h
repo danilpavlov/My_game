@@ -49,6 +49,36 @@ void Rule_Equipment_Spawn<T1, T2>::operator()(T1 magic_number, T2 equipments_amo
             }
         }
     }
+
+    for (int i = 1; i <= equipments_amount; i++){
+        while (true) {
+            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+                                                              main_field->get_x()].get_state() == Cell::EMPTY)
+            {
+                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::SLIPPERS);
+                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                break;
+            }else
+            {
+                magic_number += 1;
+            }
+        }
+    }
+
+    for (int i = 1; i <= equipments_amount; i++){
+        while (true) {
+            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+                                                              main_field->get_x()].get_state() == Cell::EMPTY)
+            {
+                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::SOCKS);
+                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                break;
+            }else
+            {
+                magic_number += 1;
+            }
+        }
+    }
     main_field->set_field(field);
 }
 

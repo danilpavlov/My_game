@@ -20,3 +20,7 @@ std::string Heal_Potion::get_icon() {
 bool Heal_Potion::is_empty() {
     return false;
 }
+
+int Heal_Potion::get_weight() {
+    return HEAL_POTION_WEIGHT;
+}

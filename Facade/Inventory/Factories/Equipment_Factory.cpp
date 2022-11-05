@@ -4,14 +4,26 @@
 
 #include "Equipment_Factory.h"
 
-IEquipment *Equipment_Factory::put_ghost_head_in_inventory() {
+IMask *Equipment_Factory::put_ghost_head_in_inventory() {
     return new Ghost_Head;
 }
 
-IEquipment *Equipment_Factory::put_pumpkin_head_in_inventory() {
+IMask *Equipment_Factory::put_pumpkin_head_in_inventory() {
     return new Pumpkin_Head;
 }
 
-IEquipment *Equipment_Factory::put_no_equipment_in_inventory() {
-    return new No_Equipment;
+IMask *Equipment_Factory::put_no_head_in_inventory() {
+    return new No_Head;
+}
+
+IBoot *Equipment_Factory::put_slippers_in_inventory() {
+    return new Slippers;
+}
+
+IBoot *Equipment_Factory::put_socks_in_inventory() {
+    return new Socks;
+}
+
+IBoot *Equipment_Factory::put_no_boot_in_inventory() {
+    return new No_Boots;
 }

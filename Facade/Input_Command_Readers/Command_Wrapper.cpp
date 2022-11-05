@@ -34,17 +34,23 @@ Command_Wrapper::Command_Wrapper() {
     //// Inventory
     Settings.drop_consumable_file.open(Settings.drop_consumable_path);
     Settings.drop_equipment_file.open(Settings.drop_equipment_path);
+    Settings.drop_boot_file.open(Settings.drop_boot_path);
 
     Settings.switch_consumable_file.open(Settings.switch_consumable_path);
     Settings.switch_equipment_file.open(Settings.switch_equipment_path);
+    Settings.switch_boot_file.open(Settings.switch_boot_path);
 
     Settings.use_consumable_file.open(Settings.use_consumable_path);
 
 
     commands.drop_consumable = Settings.drop_consumable_file.get();
     commands.drop_equipment = Settings.drop_equipment_file.get();
+    commands.drop_boot = Settings.drop_boot_file.get();
+
     commands.switch_consumable = Settings.switch_consumable_file.get();
     commands.switch_equipment = Settings.switch_equipment_file.get();
+    commands.switch_boot = Settings.switch_boot_file.get();
+
     commands.use_consumable = Settings.use_consumable_file.get();
 }
 
@@ -72,9 +78,11 @@ Command_Wrapper::~Command_Wrapper() {
     ////Inventory
     Settings.drop_consumable_file.close();
     Settings.drop_equipment_file.close();
+    Settings.drop_boot_file.close();
 
     Settings.switch_consumable_file.close();
     Settings.switch_equipment_file.close();
+    Settings.switch_boot_file.close();
 
     Settings.use_consumable_file.close();
 }
@@ -123,6 +131,12 @@ Command_Wrapper::command_type Command_Wrapper::read_user_symbol() {
 
     }else if (user_symbol == commands.drop_consumable){
         return Command_Wrapper::DROP_CONSUMABLE;
+
+    }else if (user_symbol == commands.drop_boot){
+        return Command_Wrapper::DROP_BOOT;
+
+    }else if (user_symbol == commands.switch_boot){
+        return Command_Wrapper::SWITCH_BOOT;
 
     }
 }

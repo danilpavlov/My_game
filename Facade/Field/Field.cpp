@@ -25,7 +25,7 @@ void Field::create_2D_field() {
 
         for (int j = 0; j < x; j++){
 
-            Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT);  // Делаем клетку ПУСТОЙ
+            Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT, Cell::NONE);  // Делаем клетку ПУСТОЙ
             tmp.push_back(tmp_cell);    // Заносим клетку в вектор
 
         }
@@ -71,10 +71,10 @@ Field::Field(const Field & obj) {
                 hero->set_hero_position(Singleton_Hero::x, 0);  // Определяем позиции X и Y у героя
                 hero->set_hero_position(Singleton_Hero::y, 0);
 
-                Cell tmp_cell(Cell::HERO, Cell::NO_EVENT);  // Делаем клетку ГЕРОЕМ
+                Cell tmp_cell(Cell::HERO, Cell::NO_EVENT, Cell::NONE);  // Делаем клетку ГЕРОЕМ
                 tmp.push_back(tmp_cell);    // Заносим клетку в вектор
             }else {
-                Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT);  // Делаем клетку ПУСТОЙ
+                Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT, Cell::NONE);  // Делаем клетку ПУСТОЙ
                 tmp.push_back(tmp_cell);    // Заносим клетку в вектор
             }
 
@@ -94,7 +94,7 @@ Field &Field::operator=(const Field &) {
         std::vector<Cell> tmp;
         for (int j = 0; j <= x + 1; j++)
         {
-                Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT);  // Делаем клетку ПУСТОЙ
+                Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT, Cell::NONE);  // Делаем клетку ПУСТОЙ
                 tmp.push_back(tmp_cell);    // Заносим клетку в вектор
 
         }

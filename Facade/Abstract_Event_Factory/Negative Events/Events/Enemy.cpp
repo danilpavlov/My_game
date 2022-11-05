@@ -16,5 +16,10 @@ void Enemy::do_event(Field* field) {
         hero->dead();
 
     }
+
+    if (hero->get_socks_status()){
+        hero->set_hero_attribute(Singleton_Hero::experience,
+                                 hero->get_hero_attribute(Singleton_Hero::experience) + 2);
+    }
 }
 

@@ -15,3 +15,7 @@ std::string No_Consumable::get_icon() {
 bool No_Consumable::is_empty() {
     return true;
 }
+
+int No_Consumable::get_weight() {
+    return NO_CONSUMABLE_WEIGHT;
+}

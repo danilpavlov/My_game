@@ -25,7 +25,7 @@ std::vector<std::vector<Cell>> Memento_Save::get_field() const {
             char cell_number;
             cell_count++;
 
-            Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT);
+            Cell tmp_cell(Cell::EMPTY, Cell::NO_EVENT, Cell::NONE);
             file >> cell_number;
             switch(cell_number){
                 case '1':
@@ -72,6 +72,14 @@ std::vector<std::vector<Cell>> Memento_Save::get_field() const {
                     tmp_cell.set_event(Cell::ITEM);
                 case 'H':
                     tmp_cell.set_state(Cell::HEAL_POTION);
+                    tmp_cell.set_event(Cell::ITEM);
+                    break;
+                case 'S':
+                    tmp_cell.set_state(Cell::SOCKS);
+                    tmp_cell.set_event(Cell::ITEM);
+                    break;
+                case 'Q':
+                    tmp_cell.set_state(Cell::SLIPPERS);
                     tmp_cell.set_event(Cell::ITEM);
                     break;
                 default:

@@ -20,3 +20,7 @@ bool Pumpkin_Head::is_empty() {
     return false;
 }
 
+int Pumpkin_Head::get_weight() {
+    return PUMPKIN_HEAD_WEIGHT;
+}
+

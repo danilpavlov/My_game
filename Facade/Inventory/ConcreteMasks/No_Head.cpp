@@ -2,9 +2,9 @@
 // Created by Даниил Павлов on 30.10.2022.
 //
 
-#include "No_Equipment.h"
+#include "No_Head.h"
 
-void No_Equipment::put_on() {
+void No_Head::put_on() {
     Singleton_Hero* hero = Singleton_Hero::getInstance();
 
     hero->set_ghost_status(false);
@@ -13,10 +13,14 @@ void No_Equipment::put_on() {
     hero->set_hero_model("🧛🏻");
 }
 
-std::string No_Equipment::get_icon() {
+std::string No_Head::get_icon() {
     return "➕";
 }
 
-bool No_Equipment::is_empty() {
+bool No_Head::is_empty() {
     return true;
+}
+
+int No_Head::get_weight() {
+    return NO_HEAD_WEIGHT;
 }

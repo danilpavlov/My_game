@@ -4,13 +4,15 @@
 
 #ifndef MY_GAME_GHOST_HEAD_H
 #define MY_GAME_GHOST_HEAD_H
-#include "../Interfaces/IEquipment.h"
+#include "../Interfaces/Groups_of_Equipment/IMask.h"
+#define GHOST_HEAD_WEIGHT 90
 
-class Ghost_Head : public IEquipment{
+class Ghost_Head : public IMask{
 public:
     void put_on() override;
     std::string get_icon() override;
     bool is_empty() override;
+    int get_weight() override;
 };
 
 

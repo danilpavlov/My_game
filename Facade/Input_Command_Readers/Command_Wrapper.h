@@ -51,6 +51,12 @@ struct Control_Settings{
     std::ifstream use_consumable_file;
     std::string use_consumable_path = "binds/Inventory_Binds/Use_Consumable.txt";
 
+    std::ifstream switch_boot_file;
+    std::string switch_boot_path = "binds/Inventory_Binds/Switch_Boots.txt";
+
+    std::ifstream drop_boot_file;
+    std::string drop_boot_path = "binds/Inventory_Binds/Drop_Boots.txt";
+
 };
 
 struct Commands{
@@ -69,15 +75,17 @@ struct Commands{
     //// Inventory
     char drop_consumable;
     char drop_equipment;
+    char drop_boot;
     char switch_consumable;
     char switch_equipment;
+    char switch_boot;
     char use_consumable;
 };
 
 class Command_Wrapper {
 public:
     enum command_type{MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, QUIT, ENTER, LOG_STREAM, SAVE, LOAD,
-            DROP_CONSUMABLE, DROP_EQUIPMENT, SWITCH_CONSUMABLE, SWITCH_EQUIPMENT, USE_CONSUMABLE};
+            DROP_CONSUMABLE, DROP_EQUIPMENT, DROP_BOOT, SWITCH_CONSUMABLE, SWITCH_EQUIPMENT, SWITCH_BOOT, USE_CONSUMABLE};
 
     Command_Wrapper();
 

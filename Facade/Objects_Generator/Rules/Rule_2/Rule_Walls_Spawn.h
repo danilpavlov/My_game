@@ -7,18 +7,18 @@
 
 #include "../../../Field/Field.h"
 
-template <typename T>
+template <typename T1, typename T2>
 class Rule_Walls_Spawn {
 public:
     Rule_Walls_Spawn(Field* main_field);
-    void operator()(T magic_number, Field* main_field);
+    void operator()(T1 magic_number, T2 garbage, Field* main_field);
 
 private:
     std::vector<std::vector<Cell> > field;
 };
 
-template<typename T>
-void Rule_Walls_Spawn<T>::operator()(T magic_number ,Field* main_field) {
+template<typename T1, typename T2>
+void Rule_Walls_Spawn<T1, T2>::operator()(T1 magic_number, T2 garbage, Field* main_field) {
     field = main_field->get_field();
 
     for (int i = 2; i < main_field->get_y() - 2; i++){
@@ -36,8 +36,8 @@ void Rule_Walls_Spawn<T>::operator()(T magic_number ,Field* main_field) {
 }
 
 
-template<typename T>
-Rule_Walls_Spawn<T>::Rule_Walls_Spawn(Field *main_field) : field(main_field->get_field()){
+template<typename T1, typename T2>
+Rule_Walls_Spawn<T1, T2>::Rule_Walls_Spawn(Field *main_field) : field(main_field->get_field()){
 }
 
 

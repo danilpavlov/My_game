@@ -19,7 +19,7 @@ void File_Logger::update(std::string new_message) {
 
 
     if (logs.is_open()) {
-        logs << calendar_time.tm_hour << ":" << calendar_time.tm_min << ":" << calendar_time.tm_sec << "  " << new_message << std::endl;;
+        logs << calendar_time.tm_hour << ":" << calendar_time.tm_min << ":" << calendar_time.tm_sec << "  " << new_message << std::endl;
     }else{
         std::cout << "[ERROR] Can't open file.";
     }

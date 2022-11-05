@@ -64,6 +64,12 @@ void Saver::save(Field *main_filed) {
                     case Cell::HEAL_POTION:
                         field_file << 'H';
                         break;
+                    case Cell::SOCKS:
+                        field_file << 'S';
+                        break;
+                    case Cell::SLIPPERS:
+                        field_file << 'Q';
+                        break;
                 }
             }
         }
