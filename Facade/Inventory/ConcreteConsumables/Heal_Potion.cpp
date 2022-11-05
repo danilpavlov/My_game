@@ -14,7 +14,7 @@ void Heal_Potion::use() {
 }
 
 std::string Heal_Potion::get_icon() {
-    return "💊";
+    return "🍕";
 }
 
 bool Heal_Potion::is_empty() {

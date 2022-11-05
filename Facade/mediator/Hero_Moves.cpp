@@ -76,217 +76,237 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
             break;
     }
 
-
-    switch (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge )]
-    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_event())
-    {
-        case (Cell::NO_EVENT):
-            if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-                [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_state() != Cell::WALL) {
-                redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+    if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge )]
+    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() != Cell::MOVE_BLOCKER) {
 
 
-                Notify(heroMoveMessage, direction_key);
-
-            }else if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-                            [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_state() == Cell::WALL && hero->get_ghost_status()){
-
-
-                redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-                hero->set_hero_moved_on_wall(true);
-
-                Notify(heroMoveMessage, direction_key);
-
-            }else{
-                Notify(warningMessage, Warning_Message::HERO_CANT_MOVE_ON_ROCK);
-            }
-            break;
-        case (Cell::POSITIVE_EVENT):
-            some_factory = new Positive_Event();
-
-            if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-            [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() != Cell::FREEZE) {
-
-                switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
-                                   y_verge)]
-                [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
-                      x_verge)].get_state()) {
-                    case (Cell::HEAL):
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        if (hero->get_hero_attribute(Singleton_Hero::health_points) != 9) {
-                            Notify(eventMessage, Event_Message::HEAL);
-                        } else if (hero->get_hero_attribute(Singleton_Hero::health_points) == 9) {
-                            Notify(warningMessage, Warning_Message::TOO_MUCH_HP);
-                        }
-
-                        this->do_event_heal_or_enemy_or_win(*some_factory, main_field);
-
-                        break;
-                    case (Cell::XP):
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        if (hero->did_hero_eat_shroom()) {
-                            Notify(eventMessage, Event_Message::CURE);
-                        }
-
-                        this->do_event_xp_or_teleport_or_refresher(*some_factory, main_field);
+        switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
+        [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_event()) {
+            case (Cell::NO_EVENT):
+                if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
+                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                          x_verge)].get_state() != Cell::WALL) {
+                    redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
 
 
-                        Notify(eventMessage, Event_Message::XP);
+                    Notify(heroMoveMessage, direction_key);
+
+                } else if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
+                                      y_verge)]
+                           [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                                 x_verge)].get_state() == Cell::WALL && hero->get_ghost_status()) {
 
 
-                        break;
-                    default:
-                        break;
+                    redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+                    hero->set_hero_moved_on_wall(true);
+
+                    Notify(heroMoveMessage, direction_key);
+
+                } else {
+                    Notify(warningMessage, Warning_Message::HERO_CANT_MOVE_ON_ROCK);
                 }
-                Notify(heroMoveMessage, direction_key);
-                delete some_factory;
                 break;
-            }
-        case (Cell::NEGATIVE_EVENT):
-            some_factory = new Negative_Event();
+            case (Cell::POSITIVE_EVENT):
+                some_factory = new Positive_Event();
 
-            if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-                [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() != Cell::FREEZE) {
+                if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
+                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                          x_verge)].get_weather() != Cell::FREEZE) {
 
-                std::cout << '\a';
+                    switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
+                                       y_verge)]
+                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                          x_verge)].get_state()) {
+                        case (Cell::HEAL):
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            if (hero->get_hero_attribute(Singleton_Hero::health_points) != 9) {
+                                Notify(eventMessage, Event_Message::HEAL);
+                            } else if (hero->get_hero_attribute(Singleton_Hero::health_points) == 9) {
+                                Notify(warningMessage, Warning_Message::TOO_MUCH_HP);
+                            }
+
+                            this->do_event_heal_or_enemy_or_win(*some_factory, main_field);
+
+                            break;
+                        case (Cell::XP):
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            if (hero->did_hero_eat_shroom()) {
+                                Notify(eventMessage, Event_Message::CURE);
+                            }
+
+                            this->do_event_xp_or_teleport_or_refresher(*some_factory, main_field);
 
 
-                switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
-                                   y_verge)][fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
-                                    x_verge)].get_state()) {
-                    case (Cell::ENEMY):
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-                        this->do_event_heal_or_enemy_or_win(*some_factory, main_field);
+                            Notify(eventMessage, Event_Message::XP);
 
-                        Notify(eventMessage, Event_Message::ENEMY);
-                        break;
-                    case (Cell::TELEPORT):
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::EMPTY);
 
-                        this->do_event_xp_or_teleport_or_refresher(*some_factory, main_field);
-
-                        field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(
-                                Singleton_Hero::x)].set_state(Cell::HERO);
-                        field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(
-                                Singleton_Hero::x)].set_event(Cell::NO_EVENT);
-
-                        Notify(eventMessage, Event_Message::TELEPORT);
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
+                    }
+                    Notify(heroMoveMessage, direction_key);
+                    delete some_factory;
+                    break;
                 }
-                Notify(heroMoveMessage, direction_key);
-                delete some_factory;
-                break;
-            }
-        case (Cell::GLOBAL_EVENT):
-            some_factory = new Global_Event();
+            case (Cell::NEGATIVE_EVENT):
+                some_factory = new Negative_Event();
 
-            if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-                [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() != Cell::FREEZE) {
+                if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
+                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                          x_verge)].get_weather() != Cell::FREEZE) {
 
-                switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
-                                   y_verge)]
-                [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
-                      x_verge)].get_state()) {
-                    case (Cell::WIN):
-                        if (main_field->count_enemies() == 0 && hero->get_hero_attribute(Singleton_Hero::level) >= 1) {
-                            Notify(eventMessage, Event_Message::WIN);
+                    std::cout << '\a';
 
+
+                    switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
+                                       y_verge)][fmod(
+                            fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                            x_verge)].get_state()) {
+                        case (Cell::ENEMY):
                             redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
                             this->do_event_heal_or_enemy_or_win(*some_factory, main_field);
 
-                        } else {
-                            Notify(warningMessage, Warning_Message::HERO_CANT_WIN_YET);
+                            Notify(eventMessage, Event_Message::ENEMY);
+                            break;
+                        case (Cell::TELEPORT):
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::EMPTY);
+
+                            this->do_event_xp_or_teleport_or_refresher(*some_factory, main_field);
+
+                            field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(
+                                    Singleton_Hero::x)].set_state(Cell::HERO);
+                            field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(
+                                    Singleton_Hero::x)].set_event(Cell::NO_EVENT);
+
+                            Notify(eventMessage, Event_Message::TELEPORT);
+                            break;
+                        default:
+                            break;
+                    }
+                    Notify(heroMoveMessage, direction_key);
+                    delete some_factory;
+                    break;
+                }
+            case (Cell::GLOBAL_EVENT):
+                some_factory = new Global_Event();
+
+                if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
+                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                          x_verge)].get_weather() != Cell::FREEZE) {
+
+                    switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
+                                       y_verge)]
+                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                          x_verge)].get_state()) {
+                        case (Cell::WIN):
+                            if (main_field->count_enemies() == 0 &&
+                                hero->get_hero_attribute(Singleton_Hero::level) >= 1) {
+                                Notify(eventMessage, Event_Message::WIN);
+
+                                redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+                                this->do_event_heal_or_enemy_or_win(*some_factory, main_field);
+
+                            } else {
+                                Notify(warningMessage, Warning_Message::HERO_CANT_WIN_YET);
+                            }
+
+
+                            break;
+                        case (Cell::REFRESHER_OF_EVENTS):
+
+                            this->do_event_xp_or_teleport_or_refresher(*some_factory, main_field);
+                            field = main_field->get_field();
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            Notify(eventMessage, Event_Message::REFRESHER);
+                            break;
+                        default:
+                            break;
+                    }
+                    Notify(heroMoveMessage, direction_key);
+                    delete some_factory;
+                    break;
+                }
+            case Cell::ITEM:
+                switch ((field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
+                                    y_verge)]
+                [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
+                      x_verge)].get_state())) {
+
+                    case Cell::PUMPKIN_HEAD:
+                        if (inventory->has_empty_mask_slots() &&
+                            ((hero->get_weight() + PUMPKIN_HEAD_WEIGHT) <= MAX_WEIGHT)) {
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            inventory->add_mask(equipmentFactory->put_pumpkin_head_in_inventory());
                         }
 
+                        break;
+                    case Cell::GHOST_HEAD:
+                        if (inventory->has_empty_mask_slots() &&
+                            ((hero->get_weight() + GHOST_HEAD_WEIGHT) <= MAX_WEIGHT)) {
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            inventory->add_mask(equipmentFactory->put_ghost_head_in_inventory());
+                        }
+                        break;
+                    case Cell::DRUG:
+                        if (inventory->has_empty_consumable_slots() &&
+                            ((hero->get_weight() + DRUG_WEIGHT) <= MAX_WEIGHT)) {
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            inventory->add_consumable(consumablesFactory->put_drug_in_inventory());
+                        }
 
                         break;
-                    case (Cell::REFRESHER_OF_EVENTS):
+                    case Cell::HEAL_POTION:
+                        if (inventory->has_empty_consumable_slots() &&
+                            ((hero->get_weight() + HEAL_POTION_WEIGHT) <= MAX_WEIGHT)) {
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
 
-                        this->do_event_xp_or_teleport_or_refresher(*some_factory, main_field);
-                        field = main_field->get_field();
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+                            inventory->add_consumable(consumablesFactory->put_heal_potion_in_inventory());
+                        }
 
-                        Notify(eventMessage, Event_Message::REFRESHER);
+                        break;
+                    case Cell::SOCKS:
+                        if (inventory->has_empty_boot_slots() && ((hero->get_weight() + SOCKS_WEIGHT) <= MAX_WEIGHT)) {
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            inventory->add_boot(equipmentFactory->put_socks_in_inventory());
+                        }
+
+                        break;
+                    case Cell::SLIPPERS:
+                        if (inventory->has_empty_boot_slots() &&
+                            ((hero->get_weight() + SLIPPERS_WEIGHT) <= MAX_WEIGHT)) {
+                            redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
+
+                            inventory->add_boot(equipmentFactory->put_slippers_in_inventory());
+                        }
+
                         break;
                     default:
                         break;
+
                 }
-                Notify(heroMoveMessage, direction_key);
-                delete some_factory;
+
+            default:
                 break;
+
+
+        }
+
+
+        if (field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(
+                Singleton_Hero::x)].get_weather() == Cell::FIRE) {
+            hero->set_hero_attribute(Singleton_Hero::health_points,
+                                     hero->get_hero_attribute(Singleton_Hero::health_points) - 1);
+
+            if (hero->get_hero_attribute(Singleton_Hero::health_points) <= 0) {
+                hero->dead();
             }
-        case Cell::ITEM:
-            switch((field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-            [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_state())){
-
-                case Cell::PUMPKIN_HEAD:
-                    if (inventory->has_empty_mask_slots() && ((hero->get_weight() + PUMPKIN_HEAD_WEIGHT) <= MAX_WEIGHT) ){
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        inventory->add_mask(equipmentFactory->put_pumpkin_head_in_inventory());
-                    }
-
-                    break;
-                case Cell::GHOST_HEAD:
-                    if (inventory->has_empty_mask_slots() && ((hero->get_weight() + GHOST_HEAD_WEIGHT) <= MAX_WEIGHT)){
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        inventory->add_mask(equipmentFactory->put_ghost_head_in_inventory());
-                    }
-                    break;
-                case Cell::DRUG:
-                    if (inventory->has_empty_consumable_slots() && ((hero->get_weight() + DRUG_WEIGHT) <= MAX_WEIGHT)){
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        inventory->add_consumable(consumablesFactory->put_drug_in_inventory());
-                    }
-
-                    break;
-                case Cell::HEAL_POTION:
-                    if (inventory->has_empty_consumable_slots() && ((hero->get_weight() + HEAL_POTION_WEIGHT) <= MAX_WEIGHT)){
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        inventory->add_consumable(consumablesFactory->put_heal_potion_in_inventory());
-                    }
-
-                    break;
-                case Cell::SOCKS:
-                    if (inventory->has_empty_boot_slots() && ((hero->get_weight() + SOCKS_WEIGHT) <= MAX_WEIGHT)){
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        inventory->add_boot(equipmentFactory->put_socks_in_inventory());
-                    }
-
-                    break;
-                case Cell::SLIPPERS:
-                    if (inventory->has_empty_boot_slots() && ((hero->get_weight() + SLIPPERS_WEIGHT) <= MAX_WEIGHT)){
-                        redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
-
-                        inventory->add_boot(equipmentFactory->put_slippers_in_inventory());
-                    }
-
-                    break;
-                default:
-                    break;
-
-            }
-
-        default:
-            break;
-
-
-    }
-
-
-    if (field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(Singleton_Hero::x)].get_weather() == Cell::THUNDER){
-        hero->set_hero_attribute(Singleton_Hero::health_points, hero->get_hero_attribute(Singleton_Hero::health_points) - 1);
-
-        if (hero->get_hero_attribute(Singleton_Hero::health_points) <= 0){
-            hero->dead();
         }
     }
     inventory->calculate_weight();

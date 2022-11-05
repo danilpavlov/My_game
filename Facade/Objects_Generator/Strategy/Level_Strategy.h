@@ -25,24 +25,14 @@ public:
     virtual void generate_level(Field* field) = 0;
 
 protected:
-    Rule_Hero_Spawn<int, int> *HeroSpawn;
     Rule_Walls_Spawn<int, int> *WallsSpawn;
-    Rule_Win_Cell_Spawn<int, int> *WinCellSpawn;
     Rule_Enemies_Spawn<int, int> *EnemiesSpawn;
     Rule_XPs_Spawn<int, int> *XPsSpawn;
     Rule_Heals_Spawn<int, int> *HealsSpawn;
     Rule_Teleports_Spawn<int, int> *TeleportsSpawn;
     Rule_Refresher_Spawn<int, int> *RefresherSpawn;
-    Rule_Equipment_Spawn<int, int> *EquipmentSpawn;
-    Rule_Consumables_Spawn<int, int> *ConsumablesSpawn;
 
-
-    Level_Generator<    Rule_Hero_Spawn<int, int>,
-                        Rule_Win_Cell_Spawn<int, int>,
-                        Rule_Equipment_Spawn<int, int>,
-                        Rule_Consumables_Spawn<int, int>,
-
-                        Rule_Walls_Spawn<int, int>,
+    Level_Generator<    Rule_Walls_Spawn<int, int>,
                         Rule_Enemies_Spawn<int, int>,
                         Rule_XPs_Spawn<int, int>,
                         Rule_Heals_Spawn<int, int>,

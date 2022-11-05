@@ -16,8 +16,6 @@ struct weather_zone{
 class IWeather {
 public:
     virtual void set_weather(Field* field, weather_zone* zone) = 0;
-
-
 };
 
 

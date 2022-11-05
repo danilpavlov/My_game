@@ -10,7 +10,7 @@
 void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger, int level) {
 //    Данный метод создан для отрисовки всего, включая границы, игрового поля и отдельных игровых аспектов (Например: атрибуты героя)
     std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion, slippers, socks;
-    std::string thunder, fog, freeze;
+    std::string fire, fog, freeze, move_blocker;
 
     Singleton_Hero* hero = Singleton_Hero::getInstance();
 
@@ -29,13 +29,14 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             ghost = "👻";
             pumpkin = "🎃";
             drug = "🍄";
-            heal_potion = "💊";
+            heal_potion = "🍕";
             slippers = "🩴";
             socks = "🧦";
 
-            thunder = "🔥";
+            fire = "🔥";
             fog = "💭";
             freeze = "💎";
+            move_blocker = "🔒";
             break;
         case 1:
             facet = "🥀";
@@ -51,13 +52,14 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             ghost = "👻";
             pumpkin = "🎃";
             drug = "🍄";
-            heal_potion = "💊";
+            heal_potion = "🍕";
             slippers = "🩴";
             socks = "🧦";
 
-            thunder = "🔥";
+            fire = "🔥";
             fog = "💭";
             freeze = "💎";
+            move_blocker = "🔒";
             break;
         default:
             break;
@@ -121,8 +123,10 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
                         }
                     }else if (field_2d[i][j].get_weather() == Cell::FREEZE){
                         std::cout << freeze << normal;
-                    }else if (field_2d[i][j].get_weather() == Cell::THUNDER){
-                        std::cout << thunder << normal;
+                    }else if (field_2d[i][j].get_weather() == Cell::FIRE){
+                        std::cout << fire << normal;
+                    }else if (field_2d[i][j].get_weather() == Cell::MOVE_BLOCKER){
+                        std::cout << move_blocker << normal;
                     }
                 } else if (field_2d[i][j].get_state() == Cell::HEAL) {
                     std::cout << Walls_color << heal << normal;

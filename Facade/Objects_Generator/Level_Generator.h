@@ -7,50 +7,76 @@
 
 #include "../Field/Field.h"
 #include "../Logs/ISubject.h"
+#include "Rules/Rule_1/Rule_Hero_Spawn.h"
+#include "Rules/Rule_3/Rule_Win_Cell_Spawn.h"
+#include "Rules/Rule_9/Rule_Equipment_Spawn.h"
+#include "Rules/Rule_10/Rule_Consumables_Spawn.h"
 
 #include <iostream>
 #include <exception>
 
-template <typename T1,typename T2, typename T4, typename T5, typename ... Types>
+template <typename ... Types>
 class Level_Generator{
 public:
+    Level_Generator(Field*);
 
-    void hero_spawn(int x, int y, T1* hero, Field* main_field);
-    void win_cell_spawn(int x, int y, T2* win_cell, Field* main_field);
-    void equipment_spawn(int magic_number, int amount, T4* equipment, Field* main_field);
-    void consumables_spawn(int magic_number, int amount, T5* consumables, Field* main_field);
+    void hero_spawn(int x, int y, Field* main_field);
+    void win_cell_spawn(int x, int y, Field* main_field);
+    void equipment_spawn(int magic_number, int amount, Field* main_field);
+    void consumables_spawn(int magic_number, int amount, Field* main_field);
 
     void set_rules(Types *... args, int magic_number, int amount, Field* main_field);
 
-
+    ~Level_Generator();
+private:
+    Rule_Hero_Spawn<int, int> *HeroSpawn;
+    Rule_Win_Cell_Spawn<int, int> *WinCellSpawn;
+    Rule_Equipment_Spawn<int, int> *EquipmentSpawn;
+    Rule_Consumables_Spawn<int, int> *ConsumablesSpawn;
 };
 
 
-template<typename T1, typename T2, typename T4, typename T5, typename... Types>
-void Level_Generator<T1, T2, T4, T5, Types...>::set_rules(Types*... args, int magic_number, int amount, Field* main_field) {
+template<typename... Types>
+void Level_Generator<Types...>::set_rules(Types*... args, int magic_number, int amount, Field* main_field) {
     ((args)->operator()(magic_number, amount, main_field), ...);
 }
 
-template<typename T1, typename T2, typename T4, typename T5, typename... Types>
-void Level_Generator<T1, T2, T4, T5, Types...>::hero_spawn(int x, int y, T1* hero, Field* main_field) {
-    hero->operator()(x, y, main_field);
+template<typename... Types>
+void Level_Generator<Types...>::hero_spawn(int x, int y, Field* main_field) {
+    HeroSpawn->operator()(x, y, main_field);
 }
 
-template<typename T1, typename T2, typename T4, typename T5, typename... Types>
-void Level_Generator<T1, T2, T4, T5, Types...>::win_cell_spawn(int x, int y, T2 *win_cell, Field *main_field) {
-    win_cell->operator()(x, y, main_field);
+template<typename... Types>
+void Level_Generator<Types...>::win_cell_spawn(int x, int y, Field *main_field) {
+    WinCellSpawn->operator()(x, y, main_field);
 }
 
-template<typename T1, typename T2, typename T4, typename T5, typename... Types>
+template<typename... Types>
 void
-Level_Generator<T1, T2, T4, T5, Types...>::equipment_spawn(int magic_number, int amount, T4 *equipment, Field *main_field) {
-    equipment->operator()(magic_number, amount, main_field);
+Level_Generator<Types...>::equipment_spawn(int magic_number, int amount, Field *main_field) {
+    EquipmentSpawn->operator()(magic_number, amount, main_field);
 }
 
-template<typename T1, typename T2, typename T4, typename T5, typename... Types>
+template<typename... Types>
 void
-Level_Generator<T1, T2, T4, T5, Types...>::consumables_spawn(int magic_number,int amount, T5 *consumables, Field *main_field) {
-    consumables->operator()(magic_number, amount, main_field);
+Level_Generator<Types...>::consumables_spawn(int magic_number,int amount, Field *main_field) {
+    ConsumablesSpawn->operator()(magic_number, amount, main_field);
+}
+
+template<typename... Types>
+Level_Generator<Types...>::Level_Generator(Field* ground) {
+    EquipmentSpawn = new Rule_Equipment_Spawn<int, int>(ground);
+    ConsumablesSpawn = new Rule_Consumables_Spawn<int, int>(ground);
+    HeroSpawn = new Rule_Hero_Spawn<int, int>(ground);
+    WinCellSpawn = new Rule_Win_Cell_Spawn<int, int>(ground);
+}
+
+template<typename... Types>
+Level_Generator<Types...>::~Level_Generator() {
+    delete EquipmentSpawn;
+    delete ConsumablesSpawn;
+    delete HeroSpawn;
+    delete WinCellSpawn;
 }
 
 

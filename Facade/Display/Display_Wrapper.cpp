@@ -171,7 +171,7 @@ void Display_Wrapper::draw_field_only(Field *field, int level) {
             ghost = "👻";
             pumpkin = "🎃";
             drug = "🍄";
-            heal_potion = "💊";
+            heal_potion = "🍕";
             slippers = "🩴";
             socks = "🧦";
             break;
@@ -189,7 +189,7 @@ void Display_Wrapper::draw_field_only(Field *field, int level) {
             ghost = "👻";
             pumpkin = "🎃";
             drug = "🍄";
-            heal_potion = "💊";
+            heal_potion = "🍕";
             slippers = "🩴";
             socks = "🧦";
             break;

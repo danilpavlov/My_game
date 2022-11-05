@@ -10,9 +10,7 @@
 #include "Factories/Consumables_Factory.h"
 #include <vector>
 #include <cmath>
-
-
-// Не добавлять в синглтон - будет ошибка
+#define MAX_SLOTS 3
 
 class Inventory {
 public:

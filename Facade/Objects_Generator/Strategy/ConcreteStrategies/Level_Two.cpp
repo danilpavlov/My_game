@@ -5,10 +5,10 @@
 #include "Level_Two.h"
 
 void Level_Two::generate_level(Field *field) {
-    levelGenerator->hero_spawn(1, 20, HeroSpawn, field);
-    levelGenerator->win_cell_spawn(30, 10, WinCellSpawn, field);
-    levelGenerator->equipment_spawn(66, 4, EquipmentSpawn, field);
-    levelGenerator->consumables_spawn(666, 7, ConsumablesSpawn, field);
+    levelGenerator->hero_spawn(1, 20, field);
+    levelGenerator->win_cell_spawn(30, 10, field);
+    levelGenerator->equipment_spawn(66, 4, field);
+    levelGenerator->consumables_spawn(666, 7, field);
 
     levelGenerator->set_rules(WallsSpawn, EnemiesSpawn, XPsSpawn, HealsSpawn, TeleportsSpawn, RefresherSpawn, 666666, 15, field);
 

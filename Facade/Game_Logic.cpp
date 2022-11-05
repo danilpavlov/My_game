@@ -36,6 +36,8 @@ Game_Logic::Game_Logic() {
 
 
 void Game_Logic::start_new_game() {
+    char dynamic_message_color[] = {0x1b, '[', '3', '8', ';', '5', ';', '1', '6', '6', 'm', 0};
+    char normal[] = {0x1b, '[', '0', ';', '3', '9', 'm', 0};
     while(!end) {
 
         switch (current_level) {
@@ -48,39 +50,14 @@ void Game_Logic::start_new_game() {
             default:
                 break;
         }
-        char dynamic_message_color[] = {0x1b, '[', '3', '8', ';', '5', ';', '1', '6', '6', 'm', 0};
-        char normal[] = {0x1b, '[', '0', ';', '3', '9', 'm', 0};
 
         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
 
-
         while (true) {
-
 
             if (kbhit()) {
 
-                //// weather generator
-                int random_x1, random_x2, random_y1, random_y2, tmp_1, tmp_2;
-                tmp_1 = std::rand() % ground->get_x();
-                tmp_2 = std::rand() % ground->get_x();
-                random_x1 = std::min(tmp_1, tmp_2);
-                random_x2 = std::max(tmp_1, tmp_2);
-
-                tmp_1 = std::rand() % ground->get_y();
-                tmp_2 = std::rand() % ground->get_y();
-                random_y1 = std::min(tmp_1, tmp_2);
-                random_y2 = std::max(tmp_1, tmp_2);
-                if (!is_weather_right_now && (std::rand() % 1000 > 960)) {
-                    weather_wrapper->set_zone(random_x1, random_x2, random_y1, random_y2);
-                    weather_wrapper->cause_the_weather(ground, std::rand() % weather_wrapper->possible_weather_amount());
-                    weather_wrapper->set_start_time();
-                    is_weather_right_now = true;
-
-                }else if (is_weather_right_now &&  (std::rand() % 1000 > 990)){
-                    weather_wrapper->remove_the_weather(ground);
-                    is_weather_right_now = false;
-                }
-                ////
+                weather_wrapper->roll_the_dice_for_weather(ground);
 
                 switch (command_wrapper->read_user_symbol()) {
                     case Command_Wrapper::MOVE_UP:
@@ -214,7 +191,7 @@ void Game_Logic::start_new_game() {
                         system("clear");
                         display_wrapper->in_game_intro();
 
-                        inventory->throw_out(inventory->get_mask_slots()[inventory->get_mask_switcher() % 3]);
+                        inventory->throw_out(inventory->get_mask_slots()[inventory->get_mask_switcher() % MAX_SLOTS]);
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
 
@@ -223,7 +200,7 @@ void Game_Logic::start_new_game() {
                         display_wrapper->in_game_intro();
 
                         inventory->throw_out(
-                                inventory->get_consumable_slots()[inventory->get_consumable_switcher() % 3]);
+                                inventory->get_consumable_slots()[inventory->get_consumable_switcher() % MAX_SLOTS]);
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
 
@@ -232,7 +209,7 @@ void Game_Logic::start_new_game() {
                         display_wrapper->in_game_intro();
 
                         inventory->throw_out(
-                                inventory->get_boot_slots()[inventory->get_boot_switcher() % 3]);
+                                inventory->get_boot_slots()[inventory->get_boot_switcher() % MAX_SLOTS]);
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
                     default:
@@ -313,13 +290,11 @@ void Game_Logic::start_main_menu() {
 
     system("afplay Music/Have_A_Nice_Life__Bloodhail.mp3 &");
 
-
     int mover = 0;
     display_wrapper->in_game_intro();
     mediator->move_menu(GUI_Display::NEW_GAME);
     display_wrapper->print_devil(TAB);
     while (!quit){
-
 
         if (kbhit()){
 
@@ -337,7 +312,6 @@ void Game_Logic::start_main_menu() {
                         mediator->move_menu(GUI_Display::NEW_GAME);
                     }
                     display_wrapper->print_devil(TAB);
-
 
                     mover += 1;
                     break;
@@ -435,7 +409,7 @@ Game_Logic::~Game_Logic() {
     delete consoleLogger_;
     delete fileLogger_;
     delete request_input_stream;
-
+    delete inventory;
     delete weather_wrapper;
 }
 
@@ -511,7 +485,6 @@ void Game_Logic::start_user_level_choice() {
 
                         generate_level(levels::FIRST);
                         display_wrapper->draw_field_only(ground, current_level);
-
                     }
 
                     mover -= 1;
@@ -526,7 +499,6 @@ void Game_Logic::start_user_level_choice() {
                             ground->set_level(1);
                             mediator->set_field(ground);
 
-
                             Game_Logic::start_new_game();
 
                             break;
@@ -534,7 +506,6 @@ void Game_Logic::start_user_level_choice() {
                             system("killall afplay");
                             ground->set_level(2);
                             mediator->set_field(ground);
-
 
                             Game_Logic::start_new_game();
 
