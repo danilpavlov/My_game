@@ -25,8 +25,8 @@ public:
 
 template<typename... Rules>
 void Level_Generator<Rules...>::set_rules(Field* field) {
-    //(Rules::establish(field), ...);
-    (Rules(field), ...);
+    (Rules::establish(field), ...);
+    //(Rules(field), ...);
     //// P.S. Лучше все-таки сделать так, чтобы этот метод возвращал поле, а не как у меня
 }
 
