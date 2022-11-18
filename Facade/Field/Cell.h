@@ -10,7 +10,7 @@ public:
     enum cell_state{HERO, EMPTY, WALL, HEAL, XP, TELEPORT, ENEMY, WIN, REFRESHER_OF_EVENTS, GHOST_HEAD, PUMPKIN_HEAD, HEAL_POTION, DRUG, SLIPPERS, SOCKS};
     enum cell_event{NO_EVENT, POSITIVE_EVENT, NEGATIVE_EVENT, GLOBAL_EVENT, ITEM};
 
-    enum weather_status{NONE, FREEZE, FIRE, FOG, MOVE_BLOCKER};
+    enum weather_status{NONE, FREEZE, FIRE, FOG, MOVE_BLOCKER, RANDOM_MOVER};
 
     cell_state get_state() const{
         return state_now;

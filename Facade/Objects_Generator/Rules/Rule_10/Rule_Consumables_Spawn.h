@@ -6,46 +6,43 @@
 #define MY_GAME_RULE_CONSUMABLES_SPAWN_H
 #include "../../../Field/Field.h"
 
-template <typename T1, typename T2>
+template <int magic_number, int amount>
 class Rule_Consumables_Spawn {
 public:
-    Rule_Consumables_Spawn(Field* main_field) :  field(main_field->get_field()) {};
-    void operator()(T1 magic_number, T2 consumables_amount, Field*main_field);
-
-private:
-    std::vector < std::vector<Cell> > field;
+    static void establish(Field* main_field);
 };
 
-template<typename T1, typename T2>
-void Rule_Consumables_Spawn<T1, T2>::operator()(T1 magic_number, T2 consumables_amount, Field *main_field) {
-    field = main_field->get_field();
+template<int magic_number, int amount>
+void Rule_Consumables_Spawn<magic_number, amount>::establish(Field *main_field) {
+    auto field = main_field->get_field();
+    int tmp_number = magic_number;
 
-    for (int i = 1; i <= consumables_amount; i++){
+    for (int i = 1; i <= amount; i++){
         while (true) {
-            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+            if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::DRUG);
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::DRUG);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else
             {
-                magic_number += 1;
+                tmp_number += 1;
             }
         }
     }
 
-    for (int i = 1; i <= consumables_amount; i++){
+    for (int i = 1; i <= amount; i++){
         while (true) {
-            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+            if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::HEAL_POTION);
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::HEAL_POTION);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else
             {
-                magic_number += 1;
+                tmp_number += 1;
             }
         }
     }

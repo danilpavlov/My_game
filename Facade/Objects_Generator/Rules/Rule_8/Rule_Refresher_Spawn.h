@@ -6,31 +6,28 @@
 #define MY_GAME_RULE_REFRESHER_SPAWN_H
 #include "../../../Field/Field.h"
 
-template <typename T1, typename T2>
+template <int magic_number, int amount>
 class Rule_Refresher_Spawn {
 public:
-    Rule_Refresher_Spawn(Field* main_field) : field(main_field->get_field()) {};
-    void operator()(T1 magic_number, T2 refreshers_amount, Field*main_field);
-private:
-    std::vector < std::vector<Cell> > field;
-
+    static void establish(Field*main_field);
 };
 
-template<typename T1, typename T2>
-void Rule_Refresher_Spawn<T1, T2>::operator()(T1 magic_number, T2 refreshers_amount, Field *main_field) {
-    field = main_field->get_field();
+template<int magic_number, int amount>
+void Rule_Refresher_Spawn<magic_number, amount>::establish(Field *main_field) {
+    auto field = main_field->get_field();
+    int tmp_number = magic_number;
 
-    for (int i = 1; i <= refreshers_amount; i++){
+    for (int i = 1; i <= amount; i++){
         while (true) {
-            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+            if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::REFRESHER_OF_EVENTS);
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::GLOBAL_EVENT);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::REFRESHER_OF_EVENTS);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::GLOBAL_EVENT);
                 break;
             }else
             {
-                magic_number += 1;
+                tmp_number += 1;
             }
         }
     }

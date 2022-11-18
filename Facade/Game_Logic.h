@@ -85,12 +85,10 @@ private:
     void Attach_all_to(IObserver *observer);
     void Detach_all_from(IObserver *observer);
 
-
     Request_Stream* request_input_stream;
     void request_user_about_input_stream();
 
     Command_Wrapper* command_wrapper;
-
 
     Level_Context levelContext;
 
@@ -104,7 +102,6 @@ private:
     void quick_load();
 
     Weather_Wrapper* weather_wrapper;
-    bool is_weather_right_now = false;
 };
 
 

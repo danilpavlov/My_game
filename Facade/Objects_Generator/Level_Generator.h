@@ -15,69 +15,19 @@
 #include <iostream>
 #include <exception>
 
-template <typename ... Types>
+template <typename ... Rules>
 class Level_Generator{
 public:
-    Level_Generator(Field*);
+    void set_rules(Field* field);
 
-    void hero_spawn(int x, int y, Field* main_field);
-    void win_cell_spawn(int x, int y, Field* main_field);
-    void equipment_spawn(int magic_number, int amount, Field* main_field);
-    void consumables_spawn(int magic_number, int amount, Field* main_field);
-
-    void set_rules(Types *... args, int magic_number, int amount, Field* main_field);
-
-    ~Level_Generator();
-private:
-    Rule_Hero_Spawn<int, int> *HeroSpawn;
-    Rule_Win_Cell_Spawn<int, int> *WinCellSpawn;
-    Rule_Equipment_Spawn<int, int> *EquipmentSpawn;
-    Rule_Consumables_Spawn<int, int> *ConsumablesSpawn;
 };
 
 
-template<typename... Types>
-void Level_Generator<Types...>::set_rules(Types*... args, int magic_number, int amount, Field* main_field) {
-    ((args)->operator()(magic_number, amount, main_field), ...);
+template<typename... Rules>
+void Level_Generator<Rules...>::set_rules(Field* field) {
+    (Rules::establish(field), ...);
 }
 
-template<typename... Types>
-void Level_Generator<Types...>::hero_spawn(int x, int y, Field* main_field) {
-    HeroSpawn->operator()(x, y, main_field);
-}
-
-template<typename... Types>
-void Level_Generator<Types...>::win_cell_spawn(int x, int y, Field *main_field) {
-    WinCellSpawn->operator()(x, y, main_field);
-}
-
-template<typename... Types>
-void
-Level_Generator<Types...>::equipment_spawn(int magic_number, int amount, Field *main_field) {
-    EquipmentSpawn->operator()(magic_number, amount, main_field);
-}
-
-template<typename... Types>
-void
-Level_Generator<Types...>::consumables_spawn(int magic_number,int amount, Field *main_field) {
-    ConsumablesSpawn->operator()(magic_number, amount, main_field);
-}
-
-template<typename... Types>
-Level_Generator<Types...>::Level_Generator(Field* ground) {
-    EquipmentSpawn = new Rule_Equipment_Spawn<int, int>(ground);
-    ConsumablesSpawn = new Rule_Consumables_Spawn<int, int>(ground);
-    HeroSpawn = new Rule_Hero_Spawn<int, int>(ground);
-    WinCellSpawn = new Rule_Win_Cell_Spawn<int, int>(ground);
-}
-
-template<typename... Types>
-Level_Generator<Types...>::~Level_Generator() {
-    delete EquipmentSpawn;
-    delete ConsumablesSpawn;
-    delete HeroSpawn;
-    delete WinCellSpawn;
-}
 
 
 #endif //MY_GAME_LEVEL_GENERATOR_H

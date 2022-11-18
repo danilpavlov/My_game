@@ -8,6 +8,7 @@
 #include "Concrete_Weather/Freeze.h"
 #include "Concrete_Weather/Fire.h"
 #include "Concrete_Weather/Move_Blocker.h"
+#include "Concrete_Weather/Random_Mover.h"
 
 class Weather_Wrapper {
 public:

@@ -10,7 +10,7 @@
 void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger, int level) {
 //    Данный метод создан для отрисовки всего, включая границы, игрового поля и отдельных игровых аспектов (Например: атрибуты героя)
     std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion, slippers, socks;
-    std::string fire, fog, freeze, move_blocker;
+    std::string fire, fog, freeze, move_blocker, random_mover;
 
     Singleton_Hero* hero = Singleton_Hero::getInstance();
 
@@ -37,6 +37,7 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             fog = "💭";
             freeze = "💎";
             move_blocker = "🔒";
+            random_mover = "🧩";
             break;
         case 1:
             facet = "🥀";
@@ -60,6 +61,7 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             fog = "💭";
             freeze = "💎";
             move_blocker = "🔒";
+            random_mover = "🧩";
             break;
         default:
             break;
@@ -127,6 +129,8 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
                         std::cout << fire << normal;
                     }else if (field_2d[i][j].get_weather() == Cell::MOVE_BLOCKER){
                         std::cout << move_blocker << normal;
+                    }else if (field_2d[i][j].get_weather() == Cell::RANDOM_MOVER){
+                        std::cout << random_mover << normal;
                     }
                 } else if (field_2d[i][j].get_state() == Cell::HEAL) {
                     std::cout << Walls_color << heal << normal;

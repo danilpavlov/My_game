@@ -76,8 +76,10 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
             break;
     }
 
-    if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge )]
-    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() != Cell::MOVE_BLOCKER) {
+    is_hero_moved_on_random_mover(x_plus, y_plus);
+
+
+    if (!is_hero_moved_on_move_blocker(x_plus, y_plus)) {
 
 
         switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
@@ -109,9 +111,7 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
             case (Cell::POSITIVE_EVENT):
                 some_factory = new Positive_Event();
 
-                if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
-                          x_verge)].get_weather() != Cell::FREEZE) {
+                if (!is_hero_moved_on_freezer(x_plus, y_plus)) {
 
                     switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
                                        y_verge)]
@@ -153,9 +153,7 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
             case (Cell::NEGATIVE_EVENT):
                 some_factory = new Negative_Event();
 
-                if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
-                          x_verge)].get_weather() != Cell::FREEZE) {
+                if (!is_hero_moved_on_freezer(x_plus, y_plus)) {
 
                     std::cout << '\a';
 
@@ -192,9 +190,7 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
             case (Cell::GLOBAL_EVENT):
                 some_factory = new Global_Event();
 
-                if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge)]
-                    [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
-                          x_verge)].get_weather() != Cell::FREEZE) {
+                if (!is_hero_moved_on_freezer(x_plus, y_plus)) {
 
                     switch (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
                                        y_verge)]
@@ -299,15 +295,7 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
         }
 
 
-        if (field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(
-                Singleton_Hero::x)].get_weather() == Cell::FIRE) {
-            hero->set_hero_attribute(Singleton_Hero::health_points,
-                                     hero->get_hero_attribute(Singleton_Hero::health_points) - 1);
-
-            if (hero->get_hero_attribute(Singleton_Hero::health_points) <= 0) {
-                hero->dead();
-            }
-        }
+        is_hero_moved_on_fire();
     }
     inventory->calculate_weight();
     main_field->set_field(field);
@@ -341,7 +329,43 @@ void Hero_Moves::set_field(Field *new_field) {
     field = new_field->get_field();
 }
 
+void Hero_Moves::is_hero_moved_on_random_mover(int &x_plus, int &y_plus) {
+    if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge )]
+        [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() == Cell::RANDOM_MOVER){
+        x_plus = std::rand() % 3 - 1;
+        y_plus = (std::rand()) % 3 - 1;
+    }
+}
 
+void Hero_Moves::is_hero_moved_on_fire() {
+    if (field[hero->get_hero_position(Singleton_Hero::y)][hero->get_hero_position(
+            Singleton_Hero::x)].get_weather() == Cell::FIRE) {
+        hero->set_hero_attribute(Singleton_Hero::health_points,
+                                 hero->get_hero_attribute(Singleton_Hero::health_points) - 1);
+
+        if (hero->get_hero_attribute(Singleton_Hero::health_points) <= 0) {
+            hero->dead();
+        }
+    }
+}
+
+bool Hero_Moves::is_hero_moved_on_freezer(int x_plus, int y_plus) {
+    if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge )]
+        [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() == Cell::FREEZE){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool Hero_Moves::is_hero_moved_on_move_blocker(int x_plus, int y_plus) {
+    if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge )]
+        [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() == Cell::MOVE_BLOCKER){
+        return true;
+    } else{
+        return false;
+    }
+}
 
 
 

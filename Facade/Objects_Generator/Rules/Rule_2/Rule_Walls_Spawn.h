@@ -7,19 +7,15 @@
 
 #include "../../../Field/Field.h"
 
-template <typename T1, typename T2>
+template <int magic_number>
 class Rule_Walls_Spawn {
 public:
-    Rule_Walls_Spawn(Field* main_field);
-    void operator()(T1 magic_number, T2 garbage, Field* main_field);
-
-private:
-    std::vector<std::vector<Cell> > field;
+    static void establish(Field* main_field);
 };
 
-template<typename T1, typename T2>
-void Rule_Walls_Spawn<T1, T2>::operator()(T1 magic_number, T2 garbage, Field* main_field) {
-    field = main_field->get_field();
+template<int magic_number>
+void Rule_Walls_Spawn<magic_number>::establish(Field* main_field) {
+    auto field = main_field->get_field();
 
     for (int i = 2; i < main_field->get_y() - 2; i++){
 
@@ -32,13 +28,8 @@ void Rule_Walls_Spawn<T1, T2>::operator()(T1 magic_number, T2 garbage, Field* ma
 
     main_field->set_field(field);
 
-
 }
 
-
-template<typename T1, typename T2>
-Rule_Walls_Spawn<T1, T2>::Rule_Walls_Spawn(Field *main_field) : field(main_field->get_field()){
-}
 
 
 #endif //MY_GAME_RULE_WALLS_SPAWN_H

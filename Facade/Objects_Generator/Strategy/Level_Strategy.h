@@ -19,26 +19,8 @@
 
 class Level_Strategy {
 public:
-    Level_Strategy(Field*);
-
     virtual ~Level_Strategy() = default;
     virtual void generate_level(Field* field) = 0;
-
-protected:
-    Rule_Walls_Spawn<int, int> *WallsSpawn;
-    Rule_Enemies_Spawn<int, int> *EnemiesSpawn;
-    Rule_XPs_Spawn<int, int> *XPsSpawn;
-    Rule_Heals_Spawn<int, int> *HealsSpawn;
-    Rule_Teleports_Spawn<int, int> *TeleportsSpawn;
-    Rule_Refresher_Spawn<int, int> *RefresherSpawn;
-
-    Level_Generator<    Rule_Walls_Spawn<int, int>,
-                        Rule_Enemies_Spawn<int, int>,
-                        Rule_XPs_Spawn<int, int>,
-                        Rule_Heals_Spawn<int, int>,
-                        Rule_Teleports_Spawn<int, int>,
-                        Rule_Refresher_Spawn<int, int>    > *levelGenerator;
-
 };
 
 

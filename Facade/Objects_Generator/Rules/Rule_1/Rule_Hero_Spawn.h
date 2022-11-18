@@ -10,26 +10,22 @@
 #include <cmath>
 
 
-template <typename T1, typename T2>
+template <int x, int y>
 class Rule_Hero_Spawn{
 public:
-    Rule_Hero_Spawn(Field* main_field) : field(main_field->get_field()) {};
-    void operator()(T1 x_hero, T2 y_hero, Field* main_field);
-private:
-    std::vector<std::vector<Cell>> field;
-
+    static void establish(Field* main_field);
 };
 
-template<typename T1, typename T2>
-void Rule_Hero_Spawn<T1, T2>::operator()(T1 x_hero, T2 y_hero, Field *main_field) {
-    field = main_field->get_field();
+template<int x, int y>
+void Rule_Hero_Spawn<x, y>::establish(Field *main_field) {
+    auto field = main_field->get_field();
 
     Singleton_Hero* hero = Singleton_Hero::getInstance();
 
-    hero->set_hero_to_default(fmod(x_hero, main_field->get_x()), fmod(y_hero, main_field->get_y()));
+    hero->set_hero_to_default(fmod(x, main_field->get_x()), fmod(y, main_field->get_y()));
 
-    field[ fmod(y_hero, main_field->get_y()) ][ fmod(x_hero, main_field->get_x()) ].set_state(Cell::HERO);
-    field[ fmod(y_hero, main_field->get_y())][ fmod(x_hero, main_field->get_x())].set_event(Cell::NO_EVENT);
+    field[ fmod(y, main_field->get_y()) ][ fmod(x, main_field->get_x()) ].set_state(Cell::HERO);
+    field[ fmod(y, main_field->get_y())][ fmod(x, main_field->get_x())].set_event(Cell::NO_EVENT);
 
 
     main_field->set_field(field);

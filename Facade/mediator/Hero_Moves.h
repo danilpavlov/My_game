@@ -5,15 +5,13 @@
 #ifndef MY_GAME_HERO_MOVES_H
 #define MY_GAME_HERO_MOVES_H
 #include <vector>
+#include <random>
 #include "../Singleton/Singleton_Hero.h"
 #include "../Field/Field.h"
 #include "../Abstract_Event_Factory/Abstract_Event_Factory.h"
 #include "../Inventory/Inventory.h"
 
 #include "../Logs/ISubject.h"
-
-
-
 
 #include <cmath>
 
@@ -50,6 +48,11 @@ private:
 
     Equipment_Factory* equipmentFactory;
     Consumables_Factory* consumablesFactory;
+
+    void is_hero_moved_on_random_mover(int&, int&);
+    void is_hero_moved_on_fire();
+    bool is_hero_moved_on_freezer(int, int);
+    bool is_hero_moved_on_move_blocker(int, int);
 
 };
 

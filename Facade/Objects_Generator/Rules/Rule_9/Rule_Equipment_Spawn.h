@@ -6,76 +6,74 @@
 #define MY_GAME_RULE_EQUIPMENT_SPAWN_H
 #include "../../../Field/Field.h"
 
-template <typename T1, typename T2>
+template <int magic_number, int amount>
 class Rule_Equipment_Spawn {
 public:
-    Rule_Equipment_Spawn(Field* main_field) :  field(main_field->get_field()) {};
-    void operator()(T1 magic_number, T2 equipments_amount, Field*main_field);
+    static void establish(Field *main_field);
 
-private:
-    std::vector < std::vector<Cell> > field;
 };
 
-template<typename T1, typename T2>
-void Rule_Equipment_Spawn<T1, T2>::operator()(T1 magic_number, T2 equipments_amount, Field *main_field) {
-    field = main_field->get_field();
+template<int magic_number, int amount>
+void Rule_Equipment_Spawn<magic_number, amount>::establish(Field *main_field) {
+    auto field = main_field->get_field();
+    int tmp_number = magic_number;
 
-    for (int i = 1; i <= equipments_amount; i++){
+    for (int i = 1; i <= amount; i++){
         while (true) {
-            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+            if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::PUMPKIN_HEAD);
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::PUMPKIN_HEAD);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else
             {
-                magic_number += 1;
+                tmp_number += 1;
             }
         }
     }
 
-    for (int i = 1; i <= equipments_amount; i++){
+    for (int i = 1; i <= amount; i++){
         while (true) {
-            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+            if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::GHOST_HEAD);
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::GHOST_HEAD);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else
             {
-                magic_number += 1;
+                tmp_number += 1;
             }
         }
     }
 
-    for (int i = 1; i <= equipments_amount; i++){
+    for (int i = 1; i <= amount; i++){
         while (true) {
-            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+            if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::SLIPPERS);
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::SLIPPERS);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else
             {
-                magic_number += 1;
+                tmp_number += 1;
             }
         }
     }
 
-    for (int i = 1; i <= equipments_amount; i++){
+    for (int i = 1; i <= amount; i++){
         while (true) {
-            if (field[magic_number * i % main_field->get_y()][magic_number * i %
+            if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_state(Cell::SOCKS);
-                field[magic_number * i % main_field->get_y()][magic_number * i % main_field->get_x()].set_event(Cell::ITEM);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::SOCKS);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else
             {
-                magic_number += 1;
+                tmp_number += 1;
             }
         }
     }

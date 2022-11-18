@@ -11,6 +11,7 @@ Weather_Wrapper::Weather_Wrapper() {
     possible_weather.push_back(new Freeze);
     possible_weather.push_back(new Fire);
     possible_weather.push_back(new Move_Blocker);
+    possible_weather.push_back(new Random_Mover);
 
     is_weather_right_now = false;
 }
