@@ -115,7 +115,7 @@ Inventory::Inventory() {
     for (int i = 0; i < MAX_SLOTS; i++){
         mask_slots.push_back(equipmentFactory->put_no_head_in_inventory());
         consumable_slots.push_back(consumablesFactory->put_no_consumable_in_inventory());
-        boot_slots.push_back(equipmentFactory->put_no_boot_in_inventory());
+        weapon_slots.push_back(equipmentFactory->put_no_weapon_in_inventory());
     }
 }
 
@@ -139,75 +139,76 @@ bool Inventory::has_empty_mask_slots() {
 
 void Inventory::clear_inventory() {
     Singleton_Hero* hero = Singleton_Hero::getInstance();
+    Buff_Table* buffTable = Buff_Table::getInstance();
     hero->set_hero_model(DEFAULT_HERO_MODEL);
-    hero->set_ghost_status(false);
-    hero->set_pumpkin_status(false);
-    hero->set_socks_status(false);
-    hero->set_slippers_status(false);
+
+    buffTable->remove_buff(IBuff::WEAPON);
+    buffTable->remove_buff(IBuff::MASK);
 
     hero->set_weight(0);
 
     mask_slots.clear();
     consumable_slots.clear();
-    boot_slots.clear();
+    weapon_slots.clear();
 
     for (int i = 0; i < MAX_SLOTS; i++){
         mask_slots.push_back(equipmentFactory->put_no_head_in_inventory());
         consumable_slots.push_back(consumablesFactory->put_no_consumable_in_inventory());
-        boot_slots.push_back(equipmentFactory->put_no_boot_in_inventory());
+        weapon_slots.push_back(equipmentFactory->put_no_weapon_in_inventory());
     }
     calculate_weight();
 }
 
 void Inventory::switch_boot() {
-    boot_switcher++;
-    boot_slots[boot_switcher % MAX_SLOTS]->put_on();
+    weapon_switcher++;
+    weapon_slots[weapon_switcher % MAX_SLOTS]->put_on();
 }
 
-int Inventory::get_boot_switcher() {
-    return boot_switcher;
+int Inventory::get_weapon_switcher() {
+    return weapon_switcher;
 }
 
-std::vector<IBoot *> Inventory::get_boot_slots() {
-    return boot_slots;
+std::vector<IWeapon *> Inventory::get_boot_slots() {
+    return weapon_slots;
 }
 
-void Inventory::throw_out(IBoot *some_equipment) {
+void Inventory::throw_out(IWeapon *some_equipment) {
     if (!some_equipment->is_empty()) {
-        boot_slots.erase(std::remove(boot_slots.begin(), boot_slots.end(), some_equipment),
-                         boot_slots.end());
+        weapon_slots.erase(std::remove(weapon_slots.begin(), weapon_slots.end(), some_equipment),
+                         weapon_slots.end());
 
-        boot_slots.push_back(equipmentFactory->put_no_boot_in_inventory());
+        weapon_slots.push_back(equipmentFactory->put_no_weapon_in_inventory());
 
-        boot_slots[boot_switcher % MAX_SLOTS]->put_on();
+        weapon_slots[weapon_switcher % MAX_SLOTS]->put_on();
     }
     calculate_weight();
 }
 
-void Inventory::add_boot(IBoot *some_boot) {
+void Inventory::add_weapon(IWeapon *some_weapon) {
     bool can_add = false;
     for (int i = 0; i < MAX_SLOTS; i++){
-        if (boot_slots[i]->is_empty()){
-            delete_boot(boot_slots[i]);
+        if (weapon_slots[i]->is_empty()){
+            delete_weapon(weapon_slots[i]);
             can_add = true;
             break;
         }
     }
 
     if (can_add) {
-        boot_slots.push_back(some_boot);
+        weapon_slots.push_back(some_weapon);
+        weapon_slots[weapon_switcher % MAX_SLOTS]->put_on();
     }
 }
 
-void Inventory::delete_boot(IBoot *some_boot) {
-    boot_slots.erase(std::remove(boot_slots.begin(), boot_slots.end(), some_boot),
-                     boot_slots.end());
+void Inventory::delete_weapon(IWeapon *some_boot) {
+    weapon_slots.erase(std::remove(weapon_slots.begin(), weapon_slots.end(), some_boot),
+                     weapon_slots.end());
 }
 
-bool Inventory::has_empty_boot_slots() {
+bool Inventory::has_empty_weapon_slots() {
 
     for (int i = 0; i < MAX_SLOTS; i++){
-        if (boot_slots[i]->is_empty()){
+        if (weapon_slots[i]->is_empty()){
             return true;
         }
     }
@@ -220,7 +221,7 @@ void Inventory::calculate_weight() {
 
     for (int i = 0; i < MAX_SLOTS; i++) {
         result += mask_slots[i]->get_weight();
-        result += boot_slots[i]->get_weight();
+        result += weapon_slots[i]->get_weight();
         result += consumable_slots[i]->get_weight();
     }
     hero->set_weight(result);

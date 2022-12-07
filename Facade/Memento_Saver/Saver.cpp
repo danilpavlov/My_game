@@ -64,10 +64,10 @@ void Saver::save(Field *main_filed) {
                     case Cell::HEAL_POTION:
                         saveFiles.field_file << 'H';
                         break;
-                    case Cell::SOCKS:
+                    case Cell::DAGGER:
                         saveFiles.field_file << 'S';
                         break;
-                    case Cell::SLIPPERS:
+                    case Cell::MAGIC_GLOVE:
                         saveFiles.field_file << 'Q';
                         break;
                 }

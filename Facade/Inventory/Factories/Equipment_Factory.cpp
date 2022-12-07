@@ -16,14 +16,14 @@ IMask *Equipment_Factory::put_no_head_in_inventory() {
     return new No_Head;
 }
 
-IBoot *Equipment_Factory::put_slippers_in_inventory() {
-    return new Slippers;
+IWeapon *Equipment_Factory::put_magic_glove_in_inventory() {
+    return new Magic_Glove;
 }
 
-IBoot *Equipment_Factory::put_socks_in_inventory() {
-    return new Socks;
+IWeapon *Equipment_Factory::put_dagger_in_inventory() {
+    return new Dagger;
 }
 
-IBoot *Equipment_Factory::put_no_boot_in_inventory() {
-    return new No_Boots;
+IWeapon *Equipment_Factory::put_no_weapon_in_inventory() {
+    return new No_Weapon;
 }

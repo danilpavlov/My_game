@@ -7,9 +7,10 @@
 #define MARIO_TAB ""
 #define LV_LOG_TAB "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
 
+/* Я ТУТ КОНЕЧНО ПОНАПИСАЛ ХУЙНИ*/
 void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger, int level) {
 //    Данный метод создан для отрисовки всего, включая границы, игрового поля и отдельных игровых аспектов (Например: атрибуты героя)
-    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion, slippers, socks;
+    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion, magic_glove, dagger;
     std::string fire, fog, freeze, move_blocker, random_mover;
 
     Singleton_Hero* hero = Singleton_Hero::getInstance();
@@ -30,8 +31,8 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             pumpkin = "🎃";
             drug = "🍄";
             heal_potion = "🍕";
-            slippers = "🩴";
-            socks = "🧦";
+            magic_glove = "🪬";
+            dagger = "🔪";
 
             fire = "🔥";
             fog = "💭";
@@ -54,8 +55,8 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
             pumpkin = "🎃";
             drug = "🍄";
             heal_potion = "🍕";
-            slippers = "🩴";
-            socks = "🧦";
+            magic_glove = "🪬";
+            dagger = "🔪";
 
             fire = "🔥";
             fog = "💭";
@@ -152,10 +153,10 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
                     std::cout << Ground_color << drug << normal;
                 } else if (field_2d[i][j].get_state() == Cell::HEAL_POTION) {
                     std::cout << Ground_color << heal_potion << normal;
-                } else if (field_2d[i][j].get_state() == Cell::SLIPPERS) {
-                    std::cout << Ground_color << slippers << normal;
-                } else if (field_2d[i][j].get_state() == Cell::SOCKS) {
-                    std::cout << Ground_color << socks << normal;
+                } else if (field_2d[i][j].get_state() == Cell::MAGIC_GLOVE) {
+                    std::cout << Ground_color << magic_glove << normal;
+                } else if (field_2d[i][j].get_state() == Cell::DAGGER) {
+                    std::cout << Ground_color << dagger << normal;
                 }
 
             }else{
@@ -334,12 +335,36 @@ void Field_Painter::draw_field(Field *main_field, Console_Logger* console_logger
     std::cout << std::endl << std::endl;
 
     TAB_PUSH
-    std::cout <<  lv_table <<  "INVENTORY WEIGHT: " << lv_table_number <<hero->get_weight() << " / " << MAX_WEIGHT <<std::endl;
+    std::cout <<  lv_table <<  "INVENTORY WEIGHT: " << lv_table_number <<hero->get_weight() << " / " << MAX_WEIGHT;
+
+    TAB_PUSH
+    TAB_PUSH
+    Buff_Table* buffTable = Buff_Table::getInstance();
+    auto buffs = buffTable->get_buffs();
+    std::cout << lv_table << "Buffs: ";
+    for (int i = 0; i < buffs.size(); i++){
+        switch (buffs[i]->get_type()){
+            case IBuff::ANTI_ENEMY_BUFF:
+                std::cout << "😈" << " ";
+                break;
+            case IBuff::XP_BUFF:
+                std::cout << "🌟" << " ";
+                break;
+            case IBuff::MOVE_BUFF:
+                std::cout << "🦇" << " " ;
+                break;
+            default:
+                break;
+        }
+    }
 
 
+    std::cout << std::endl;
     TAB_PUSH
     std::cout << lv_table << "Level: "<< lv_table_number    // ОТРИСОВКА УРОВНЯ ГЕРОЯ
               << hero->get_hero_attribute(Singleton_Hero::level) <<normal;
+
+
 
     char logging_color[] = { 0x1b, '[', '3', '8',';','5',';','9','4', 'm',0 };   // Цвет надписи Логов
     char active_logging_color[] = { 0x1b, '[', '3', '8',';','5',';','1','6', '0', 'm',0 };   // Логирование Активно

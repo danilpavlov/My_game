@@ -28,6 +28,7 @@ Game_Logic::Game_Logic() {
     game_saver = new Saver;
     caretaker = new Caretaker(game_saver);
     caretaker->backup();
+    rollbacker = new Rollbacker;
 
     inventory = new Inventory;
 
@@ -152,6 +153,21 @@ void Game_Logic::start_new_game() {
                         system("clear");
                         load_checker = true;
                         end = true;
+                        rollbacker->remember(ground);
+
+                        try {
+                            caretaker->load_game(ground);
+                        }catch (File_Delete_Exception fileDelete){
+                            load_checker = false;
+                            end = false;
+                            rollbacker->rollback_changes(ground);
+                            std::cout << fileDelete.what();
+                        }catch (Wrong_Data_Exception wrongData){
+                            load_checker = false;
+                            end = false;
+                            rollbacker->rollback_changes(ground);
+                            std::cout << wrongData.what();
+                        }
                         break;
 
                     case Command_Wrapper::SWITCH_EQUIPMENT:
@@ -209,7 +225,7 @@ void Game_Logic::start_new_game() {
                         display_wrapper->in_game_intro();
 
                         inventory->throw_out(
-                                inventory->get_boot_slots()[inventory->get_boot_switcher() % MAX_SLOTS]);
+                                inventory->get_boot_slots()[inventory->get_weapon_switcher() % MAX_SLOTS]);
                         display_wrapper->draw(ground, consoleLogger_, current_level, inventory);
                         break;
                     default:
@@ -350,8 +366,10 @@ void Game_Logic::start_main_menu() {
 
                                 current_level = static_cast<levels>(ground->get_level() - 1);
                                 Game_Logic::start_new_game();
-                            }catch (std::exception){
-                                display_wrapper->print_cant_load();
+                            }catch (Wrong_Data_Exception wrongData){
+                                std::cout << wrongData.what();
+                            }catch (File_Delete_Exception fileDelete){
+                                std::cout << fileDelete.what();
                             }
 
                             break;
@@ -411,6 +429,7 @@ Game_Logic::~Game_Logic() {
     delete request_input_stream;
     delete inventory;
     delete weather_wrapper;
+    delete rollbacker;
 }
 
 void Game_Logic::generate_level(levels current_level_) {
@@ -535,8 +554,10 @@ void Game_Logic::quick_load() {
 
         current_level = static_cast<levels>(ground->get_level() - 1);
         display_wrapper->in_game_intro();
-    }catch (std::exception){
-        display_wrapper->print_cant_load();
+    }catch (Wrong_Data_Exception wrongData){
+        std::cout << wrongData.what();
+    }catch (File_Delete_Exception fileDelete){
+        std::cout << fileDelete.what();
     }
 }
 

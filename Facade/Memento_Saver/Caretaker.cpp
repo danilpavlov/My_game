@@ -7,7 +7,7 @@
 void Caretaker::backup() {
     if (!this->mementos_.empty()){
         mementos_.pop_back();
-    }
+    } 
     this->mementos_.push_back(this->saver_->save_current_memento());
 }
 
@@ -22,3 +22,9 @@ Caretaker::~Caretaker() {
 Caretaker::Caretaker(Saver *saver) {
     saver_ = saver;
 }
+
+
+
+
+
+

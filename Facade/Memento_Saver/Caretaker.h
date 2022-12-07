@@ -5,7 +5,10 @@
 #ifndef MY_GAME_CARETAKER_H
 #define MY_GAME_CARETAKER_H
 #include "Saver.h"
+#include "../Singleton/Singleton_Hero.h"
 #include <vector>
+#include <filesystem>
+#include <fstream>
 
 class Caretaker {
 public:
@@ -19,6 +22,7 @@ public:
 private:
     std::vector <Memento*> mementos_;
     Saver* saver_;
+
 };
 
 

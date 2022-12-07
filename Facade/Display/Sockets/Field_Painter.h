@@ -6,6 +6,7 @@
 #define MY_GAME_FIELD_PAINTER_H
 #include "../../Field/Field.h"
 #include "../../Logs/Loggers/Console_Logger.h"
+#include "../../Inventory/Buffs/Buff_Table.h"
 
 class Field_Painter{
 public:

@@ -7,6 +7,8 @@
 #include "Memento.h"
 #include <fstream>
 #include <ostream>
+#include "My_Exceptions/File_Delete_Exception.h"
+#include "My_Exceptions/Wrong_Data_Exception.h"
 
 class Memento_Save : public Memento{
 public:
@@ -14,6 +16,8 @@ public:
     int hero_position(Singleton_Hero::coordinates) const override;
     int hero_attribute(Singleton_Hero::hero_attributes) const override;
     int field_level() const override;
+
+
 };
 
 

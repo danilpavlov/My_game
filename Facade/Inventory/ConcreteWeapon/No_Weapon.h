@@ -2,12 +2,12 @@
 // Created by Даниил Павлов on 02.11.2022.
 //
 
-#ifndef MY_GAME_SOCKS_H
-#define MY_GAME_SOCKS_H
-#include "../Interfaces/Groups_of_Equipment/IBoot.h"
-#define SOCKS_WEIGHT 10
+#ifndef MY_GAME_NO_WEAPON_H
+#define MY_GAME_NO_WEAPON_H
+#include "../Interfaces/Groups_of_Equipment/IWeapon.h"
+#define NO_WEAPON_WEIGHT 0
 
-class Socks : public IBoot{
+class No_Weapon : public IWeapon{
 public:
     void put_on() override;
     std::string get_icon() override;
@@ -16,4 +16,4 @@ public:
 };
 
 
-#endif //MY_GAME_SOCKS_H
+#endif //MY_GAME_NO_WEAPON_H

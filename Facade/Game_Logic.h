@@ -31,12 +31,12 @@
 
 #include "Input_Command_Readers/Command_Wrapper.h"
 
-
 #include "Objects_Generator/Strategy/Level_Context.h"
 #include "Objects_Generator/Strategy/ConcreteStrategies/Level_One.h"
 #include "Objects_Generator/Strategy/ConcreteStrategies/Level_Two.h"
 
 #include "Memento_Saver/Caretaker.h"
+#include "Memento_Saver/Rollbacker.h"
 
 #include "Inventory/Inventory.h"
 
@@ -96,6 +96,7 @@ private:
 
     Saver *game_saver;
     Caretaker* caretaker;
+    Rollbacker* rollbacker;
 
     Inventory* inventory;
 

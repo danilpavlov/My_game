@@ -6,8 +6,10 @@
 
 void Pumpkin_Head::put_on() {
     Singleton_Hero* hero = Singleton_Hero::getInstance();
-    hero->set_ghost_status(false);
-    hero->set_pumpkin_status(true);
+    Buff_Table* buffTable = Buff_Table::getInstance();
+
+    buffTable->remove_buff(IBuff::MASK);
+    buffTable->add_buff(buff);
 
     hero->set_hero_model("🎃");
 }
@@ -22,5 +24,9 @@ bool Pumpkin_Head::is_empty() {
 
 int Pumpkin_Head::get_weight() {
     return PUMPKIN_HEAD_WEIGHT;
+}
+
+Pumpkin_Head::Pumpkin_Head() {
+    buff = new Pumpkin_Buff;
 }
 

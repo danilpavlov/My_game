@@ -17,13 +17,9 @@ private:
     Singleton_Hero();
 
     std::string hero_model = DEFAULT_HERO_MODEL;
-    bool ghost_status = false;
-    bool pumpkin_status = false;
+
+    bool fly_ability = false;
     bool hero_moved_on_wall = false;
-
-    bool socks_mode = false;
-    bool slippers_mode = false;
-
 
     int hp;
     int xp;
@@ -58,26 +54,17 @@ public:
 
     void set_hero_to_default(int new_x, int new_y);
 
-
     std::string get_hero_model();
     void set_hero_model(std::string new_model);
-
-    void set_ghost_status(bool new_status);
-    void set_pumpkin_status(bool new_status);
-
-    bool get_ghost_status();
-    bool get_pumpkin_status();
 
     bool were_moved_on_wall();
     void set_hero_moved_on_wall(bool new_status);
 
-    bool get_socks_status();
-    bool get_slippers_status();
-    void set_socks_status(bool);
-    void set_slippers_status(bool);
-
     void set_weight(int);
     int get_weight();
+
+    void set_flying_ability(bool new_status);
+    bool can_fly();
 };
 
 

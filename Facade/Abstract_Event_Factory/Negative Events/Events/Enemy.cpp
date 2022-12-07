@@ -5,8 +5,9 @@
 #include "Enemy.h"
 
 void Enemy::do_event(Field* field) {
-
+    Buff_Table* buffTable = Buff_Table::getInstance();
     Singleton_Hero *hero = Singleton_Hero::getInstance();
+
     if (hero->get_hero_attribute(Singleton_Hero::health_points) >= 1) {
         hero->set_hero_attribute(Singleton_Hero::health_points,
                                        hero->get_hero_attribute(Singleton_Hero::health_points) - 1);
@@ -16,10 +17,7 @@ void Enemy::do_event(Field* field) {
         hero->dead();
 
     }
+    buffTable->activate_buffs_of_type(IBuff::ANTI_ENEMY_BUFF);
 
-    if (hero->get_socks_status()){
-        hero->set_hero_attribute(Singleton_Hero::experience,
-                                 hero->get_hero_attribute(Singleton_Hero::experience) + 2);
-    }
 }
 

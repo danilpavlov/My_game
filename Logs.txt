@@ -1,56 +1,15 @@
-10:54:45  [SYSTEM] **Standart Control**
-10:54:53  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 2; Y: 20
-10:54:54  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 2; Y: 19
-10:54:54  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 3; Y: 19
-10:55:0  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 4; Y: 19
-10:55:0  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 5; Y: 19
-10:55:0  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 6; Y: 19
-10:55:0  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 7; Y: 19
-10:55:0  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 8; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 9; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 10; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 11; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 12; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 13; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 14; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 15; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 16; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 17; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 18; Y: 19
-10:55:1  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 19; Y: 19
-10:55:1  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 19; Y: 18
-10:55:2  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 20; Y: 18
-10:55:2  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 21; Y: 18
-10:55:2  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 22; Y: 18
-10:55:2  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 23; Y: 18
-10:55:2  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 24; Y: 18
-10:55:2  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 25; Y: 18
-10:55:2  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 26; Y: 18
-10:55:3  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 27; Y: 18
-10:55:3  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 28; Y: 18
-10:55:3  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 29; Y: 18
-10:55:3  [EVENT] Hero was hit by Enemy.
-10:55:3  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 30; Y: 18
-10:55:3  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 31; Y: 18
-10:55:4  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 31; Y: 17
-10:55:7  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 32; Y: 17
-10:55:7  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 33; Y: 17
-10:55:7  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 34; Y: 17
-10:55:8  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 35; Y: 17
-10:55:8  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 36; Y: 17
-10:55:8  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 37; Y: 17
-10:55:8  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 38; Y: 17
-10:55:8  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 39; Y: 17
-10:55:8  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 40; Y: 17
-10:55:8  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 41; Y: 17
-10:55:12  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 42; Y: 17
-10:55:13  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 43; Y: 17
-10:55:13  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 44; Y: 17
-10:55:13  [HERO MOVE] Hero moved Left. New coordinates of Hero: X: 43; Y: 17
-10:55:13  [HERO MOVE] Hero moved Left. New coordinates of Hero: X: 42; Y: 17
-10:55:13  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 43; Y: 17
-10:55:14  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 44; Y: 17
-10:55:14  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 45; Y: 17
-10:55:14  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 46; Y: 17
-10:55:14  [EVENT] Hero got plus one XP.
-10:55:14  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 47; Y: 17
+15:7:27  [SYSTEM] **Standart Control**
+15:7:42  [HERO MOVE] Hero moved Down. New coordinates of Hero: X: 1; Y: 21
+15:7:42  [WARNING] Hero Can't Move On Walls!
+15:7:44  [WARNING] Hero Can't Move On Walls!
+15:7:45  [WARNING] Hero Can't Move On Walls!
+15:7:45  [WARNING] Hero Can't Move On Walls!
+15:7:45  [WARNING] Hero Can't Move On Walls!
+15:7:45  [WARNING] Hero Can't Move On Walls!
+15:7:46  [WARNING] Hero Can't Move On Walls!
+15:7:46  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 1; Y: 20
+15:7:48  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 2; Y: 20
+15:7:48  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 2; Y: 19
+15:7:48  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 3; Y: 19
+15:7:48  [HERO MOVE] Hero moved Up. New coordinates of Hero: X: 3; Y: 18
+15:7:50  [HERO MOVE] Hero moved Right. New coordinates of Hero: X: 4; Y: 18

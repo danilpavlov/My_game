@@ -6,10 +6,9 @@
 
 void No_Head::put_on() {
     Singleton_Hero* hero = Singleton_Hero::getInstance();
+    Buff_Table* buffTable = Buff_Table::getInstance();
 
-    hero->set_ghost_status(false);
-    hero->set_pumpkin_status(false);
-
+    buffTable->remove_buff(IBuff::MASK);
     hero->set_hero_model("🧛🏻");
 }
 

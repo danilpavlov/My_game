@@ -8,9 +8,9 @@
 #include "../ConcreteMasks/Pumpkin_Head.h"
 #include "../ConcreteMasks/No_Head.h"
 
-#include "../ConcreteBoots/Slippers.h"
-#include "../ConcreteBoots/Socks.h"
-#include "../ConcreteBoots/No_Boots.h"
+#include "../ConcreteWeapon/Magic_Glove.h"
+#include "../ConcreteWeapon/Dagger.h"
+#include "../ConcreteWeapon/No_Weapon.h"
 
 
 class Equipment_Factory {
@@ -19,9 +19,9 @@ public:
     IMask* put_pumpkin_head_in_inventory();
     IMask* put_no_head_in_inventory();
 
-    IBoot* put_slippers_in_inventory();
-    IBoot* put_socks_in_inventory();
-    IBoot* put_no_boot_in_inventory();
+    IWeapon* put_magic_glove_in_inventory();
+    IWeapon* put_dagger_in_inventory();
+    IWeapon* put_no_weapon_in_inventory();
 
 };
 

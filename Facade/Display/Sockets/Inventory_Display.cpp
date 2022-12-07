@@ -11,7 +11,7 @@ void Inventory_Display::draw_inventory(Inventory *inventory) {
     char purple_color[] = { 0x1b, '[', '3', '8',';','5',';','1', '2', '8', 'm',0 };
     char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
 
-    std::cout << TAB << orange_color << "Masks         " << purple_color << "|" << orange_color <<"     Consumables   "<< purple_color << "|" << orange_color <<"     Boots"<< std::endl << normal <<TAB;
+    std::cout << TAB << orange_color << "Masks         " << purple_color << "|" << orange_color <<"     Consumables   "<< purple_color << "|" << orange_color <<"     Weapon"<< std::endl << normal <<TAB;
 
     for (int i = 0; i < inventory->get_mask_slots().size(); i++){
         std::cout << inventory->get_mask_slots()[i]->get_icon();
@@ -51,11 +51,11 @@ void Inventory_Display::draw_inventory(Inventory *inventory) {
 
     std::cout << purple_color << "|     " << normal;
 
-    if (inventory->get_boot_switcher()%3 == 0) {
+    if (inventory->get_weapon_switcher() % 3 == 0) {
         std::cout << "🔺            " << std::endl;
-    }else if (inventory->get_boot_switcher()%3 == 1){
+    }else if (inventory->get_weapon_switcher() % 3 == 1){
         std::cout << "   🔺         " << std::endl;
-    }else if (inventory->get_boot_switcher()%3 == 2){
+    }else if (inventory->get_weapon_switcher() % 3 == 2){
         std::cout << "      🔺      " << std::endl;
     }
 }

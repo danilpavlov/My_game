@@ -9,6 +9,7 @@
 
 class Pumpkin_Head : public IMask{
 public:
+    Pumpkin_Head();
     void put_on() override;
     std::string get_icon() override;
     bool is_empty() override;

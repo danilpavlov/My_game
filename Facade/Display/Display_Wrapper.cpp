@@ -154,7 +154,7 @@ void Display_Wrapper::print_press_any_button(std::string tab) {
 void Display_Wrapper::draw_field_only(Field *field, int level) {
     std::string tab = "\t";
 
-    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion, slippers, socks;
+    std::string facet, hero_icon, wall, empty_cell, heal, xp, teleport, enemy, win_cell, refresher, pumpkin, ghost, drug, heal_potion, magic_glove, dagger;
 
     switch(level){
         case 0:
@@ -172,8 +172,8 @@ void Display_Wrapper::draw_field_only(Field *field, int level) {
             pumpkin = "🎃";
             drug = "🍄";
             heal_potion = "🍕";
-            slippers = "🩴";
-            socks = "🧦";
+            magic_glove = "🪬";
+            dagger = "🔪";
             break;
         case 1:
             facet = "🥀";
@@ -190,8 +190,8 @@ void Display_Wrapper::draw_field_only(Field *field, int level) {
             pumpkin = "🎃";
             drug = "🍄";
             heal_potion = "🍕";
-            slippers = "🩴";
-            socks = "🧦";
+            magic_glove = "🪬";
+            dagger = "🔪";
             break;
         default:
             break;
@@ -251,11 +251,11 @@ void Display_Wrapper::draw_field_only(Field *field, int level) {
                 case Cell::HEAL_POTION:
                     std::cout << heal_potion;
                     break;
-                case Cell::SLIPPERS:
-                    std::cout << slippers;
+                case Cell::MAGIC_GLOVE:
+                    std::cout << magic_glove;
                     break;
-                case Cell::SOCKS:
-                    std::cout << socks;
+                case Cell::DAGGER:
+                    std::cout << dagger;
                     break;
                 default:
                     break;

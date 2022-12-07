@@ -7,7 +7,6 @@
 #include "../Negative_Event.h"
 #include "../../Event.h"
 
-
 class Enemy : public Event{
 public:
     void do_event(Field* field) override;

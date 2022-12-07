@@ -122,22 +122,6 @@ void Singleton_Hero::set_hero_model(std::string new_model) {
     hero_model = new_model;
 }
 
-void Singleton_Hero::set_ghost_status(bool new_status) {
-    ghost_status = new_status;
-}
-
-void Singleton_Hero::set_pumpkin_status(bool new_status) {
-    pumpkin_status = new_status;
-}
-
-bool Singleton_Hero::get_ghost_status() {
-    return ghost_status;
-}
-
-bool Singleton_Hero::get_pumpkin_status() {
-    return pumpkin_status;
-}
-
 void Singleton_Hero::set_hero_moved_on_wall(bool new_status) {
     hero_moved_on_wall = new_status;
 }
@@ -146,28 +130,20 @@ bool Singleton_Hero::were_moved_on_wall() {
     return hero_moved_on_wall;
 }
 
-bool Singleton_Hero::get_socks_status() {
-    return socks_mode;
-}
-
-bool Singleton_Hero::get_slippers_status() {
-    return slippers_mode;
-}
-
-void Singleton_Hero::set_socks_status(bool new_status) {
-    socks_mode = new_status;
-}
-
-void Singleton_Hero::set_slippers_status(bool new_status) {
-    slippers_mode = new_status;
-}
-
 void Singleton_Hero::set_weight(int new_weight) {
     weight = new_weight;
 }
 
 int Singleton_Hero::get_weight() {
     return weight;
+}
+
+void Singleton_Hero::set_flying_ability(bool new_status) {
+    fly_ability = new_status;
+}
+
+bool Singleton_Hero::can_fly() {
+    return fly_ability;
 }
 
 

@@ -3,17 +3,22 @@
 //
 
 #include "Memento_Save.h"
-#include <exception>
 
 std::vector<std::vector<Cell>> Memento_Save::get_field() const {
     std::vector<std::vector<Cell>> field;
 
     std::string path = "Save/Saved_Field.txt";
     std::ifstream file;
+
+
     file.open(path);
 
+    if (std::__fs::filesystem::file_size(path) == 0){
+        throw File_Delete_Exception(path);
+    }
+
     if (!file.is_open()){
-        throw std::exception();
+        throw File_Delete_Exception(path);;
     }
     int cell_count = 0;
     int heroes_count = 0;
@@ -75,11 +80,11 @@ std::vector<std::vector<Cell>> Memento_Save::get_field() const {
                     tmp_cell.set_event(Cell::ITEM);
                     break;
                 case 'S':
-                    tmp_cell.set_state(Cell::SOCKS);
+                    tmp_cell.set_state(Cell::DAGGER);
                     tmp_cell.set_event(Cell::ITEM);
                     break;
                 case 'Q':
-                    tmp_cell.set_state(Cell::SLIPPERS);
+                    tmp_cell.set_state(Cell::MAGIC_GLOVE);
                     tmp_cell.set_event(Cell::ITEM);
                     break;
                 default:
@@ -91,7 +96,7 @@ std::vector<std::vector<Cell>> Memento_Save::get_field() const {
     }
 
     if (heroes_count != 1 || cell_count != (75*24)){
-        throw std::exception();
+        throw Wrong_Data_Exception(path);
     }
 
 
@@ -113,19 +118,21 @@ int Memento_Save::hero_position(Singleton_Hero::coordinates coordinate) const {
         default:
             break;
     }
-    assert(path == "Save/Saved_Hero_X.txt" || path == "Save/Saved_Hero_Y.txt");
+    if (std::__fs::filesystem::file_size(path) == 0){
+        throw File_Delete_Exception(path);
+    }
     file.open(path);
 
     if (file.is_open()){
         file >> position;
     }else{
-        throw std::exception();
+        throw File_Delete_Exception(path);;
     }
 
     if (path == "Save/Saved_Hero_X.txt" && (position > 75 || position < 0)){
-        throw std::exception();
+        throw Wrong_Data_Exception(path);
     }else if (path == "Save/Saved_Hero_Y.txt" && (position > 24 || position < 0)){
-        throw std::exception();
+        throw Wrong_Data_Exception(path);
     }
 
     return position;
@@ -136,6 +143,7 @@ int Memento_Save::hero_attribute(Singleton_Hero::hero_attributes attribute) cons
 
     std::ifstream file;
     std::string path;
+
 
     switch (attribute) {
         case Singleton_Hero::level:
@@ -150,21 +158,23 @@ int Memento_Save::hero_attribute(Singleton_Hero::hero_attributes attribute) cons
         default:
             break;
     }
-    assert(path == "Save/Saved_Hero_Level.txt" || path == "Save/Saved_HP.txt" || path == "Save/Saved_XP.txt");
+    if (std::__fs::filesystem::file_size(path) == 0){
+        throw File_Delete_Exception(path);;
+    }
     file.open(path);
 
     if (file.is_open()) {
         file >> attribute_amount;
     }else{
-        throw std::exception();
+        throw File_Delete_Exception(path);;
     }
 
     if (attribute_amount > 9 && path == "Save/Saved_HP.txt"){
-        throw std::exception();
+        throw Wrong_Data_Exception(path);
     }else if (attribute_amount < 1 && path == "Save/Saved_HP.txt"){
-        throw std::exception();
+        throw Wrong_Data_Exception(path);
     }else if (attribute_amount < 0 && (path == "Save/Saved_Hero_Level.txt" || path == "Save/Saved_XP.txt") ){
-        throw std::exception();
+        throw Wrong_Data_Exception(path);
     }
 
     file.close();
@@ -175,10 +185,13 @@ int Memento_Save::field_level() const {
     int level;
     std::string path = "Save/Saved_Field_Level.txt";
     std::ifstream file;
+    if (std::__fs::filesystem::file_size(path) == 0){
+        throw File_Delete_Exception(path);;
+    }
 
     file.open(path);
     if (!file.is_open()){
-        throw std::exception();
+        throw File_Delete_Exception(path);;
     }
 
     file >> level;
@@ -186,7 +199,8 @@ int Memento_Save::field_level() const {
     if (level == 2 || level == 1) {
         file.close();
     }else{
-        throw std::exception();
+        throw Wrong_Data_Exception(path);
     }
     return level;
 }
+

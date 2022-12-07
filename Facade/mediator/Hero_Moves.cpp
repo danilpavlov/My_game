@@ -53,6 +53,9 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
     Abstract_Event_Factory *some_factory;
     int x_plus;
     int y_plus;
+    Buff_Table* buffTable = Buff_Table::getInstance();
+    buffTable->activate_buffs_of_type(IBuff::MOVE_BUFF);
+
     field = main_field->get_field();
 
     switch(direction_key){
@@ -96,7 +99,7 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
                 } else if (field[fmod(fmod(hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge,
                                       y_verge)]
                            [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge,
-                                 x_verge)].get_state() == Cell::WALL && hero->get_ghost_status()) {
+                                 x_verge)].get_state() == Cell::WALL && hero->can_fly()) {
 
 
                     redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
@@ -266,20 +269,20 @@ void Hero_Moves::move_hero(direction direction_key, Field* main_field, Inventory
                         }
 
                         break;
-                    case Cell::SOCKS:
-                        if (inventory->has_empty_boot_slots() && ((hero->get_weight() + SOCKS_WEIGHT) <= MAX_WEIGHT)) {
+                    case Cell::DAGGER:
+                        if (inventory->has_empty_weapon_slots() && ((hero->get_weight() + DAGGER_WEIGHT) <= MAX_WEIGHT)) {
                             redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
 
-                            inventory->add_boot(equipmentFactory->put_socks_in_inventory());
+                            inventory->add_weapon(equipmentFactory->put_dagger_in_inventory());
                         }
 
                         break;
-                    case Cell::SLIPPERS:
-                        if (inventory->has_empty_boot_slots() &&
-                            ((hero->get_weight() + SLIPPERS_WEIGHT) <= MAX_WEIGHT)) {
+                    case Cell::MAGIC_GLOVE:
+                        if (inventory->has_empty_weapon_slots() &&
+                            ((hero->get_weight() + MAGIC_GLOVE_WEIGHT) <= MAX_WEIGHT)) {
                             redefinition_hero_cell_states(x_plus, y_plus, Cell::EMPTY, Cell::HERO);
 
-                            inventory->add_boot(equipmentFactory->put_slippers_in_inventory());
+                            inventory->add_weapon(equipmentFactory->put_magic_glove_in_inventory());
                         }
 
                         break;
@@ -333,7 +336,7 @@ void Hero_Moves::is_hero_moved_on_random_mover(int &x_plus, int &y_plus) {
     if (field[fmod( fmod( hero->get_hero_position(Singleton_Hero::y) + y_plus, y_verge) + y_verge, y_verge )]
         [fmod(fmod(hero->get_hero_position(Singleton_Hero::x) + x_plus, x_verge) + x_verge, x_verge)].get_weather() == Cell::RANDOM_MOVER){
         x_plus = std::rand() % 3 - 1;
-        y_plus = (std::rand()) % 3 - 1;
+        y_plus = std::rand() % 3 - 1;
     }
 }
 

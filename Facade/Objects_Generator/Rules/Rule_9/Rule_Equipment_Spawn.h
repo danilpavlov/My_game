@@ -53,7 +53,7 @@ void Rule_Equipment_Spawn<magic_number, amount>::establish(Field *main_field) {
             if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::SLIPPERS);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::MAGIC_GLOVE);
                 field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else
@@ -68,7 +68,7 @@ void Rule_Equipment_Spawn<magic_number, amount>::establish(Field *main_field) {
             if (field[tmp_number * i % main_field->get_y()][tmp_number * i %
                                                               main_field->get_x()].get_state() == Cell::EMPTY)
             {
-                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::SOCKS);
+                field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_state(Cell::DAGGER);
                 field[tmp_number * i % main_field->get_y()][tmp_number * i % main_field->get_x()].set_event(Cell::ITEM);
                 break;
             }else

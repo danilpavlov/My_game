@@ -6,6 +6,7 @@
 #define MY_GAME_EVENT_H
 #include "../Singleton/Singleton_Hero.h"
 #include "../Field/Field.h"
+#include "../Inventory/Buffs/Buff_Table.h"
 
 
 class Event{
